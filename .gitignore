@@ -5,5 +5,5 @@ package.json
 __pycache__/
 cookie.json
 *.mp4
-*.yaml
+upload.yaml
 dist/
