@@ -1,4 +1,4 @@
-# Copyright (c) 2024 biliup-py.
+# Copyright (c) 2025 biliupload
 
 import re
 import sys
@@ -10,7 +10,7 @@ from pathlib import Path
 from time import sleep
 from requests_html import HTMLSession
 from requests.utils import cookiejar_from_dict
-from utils.parse_cookies import parse_cookies
+from biliupload.utils.parse_cookies import parse_cookies
 
 # you can test your best cdn line https://member.bilibili.com/preupload?r=ping
 cdn_lines = {
@@ -24,7 +24,7 @@ class BiliUploader(object):
     }
 
     def __init__(self, sessdata, bili_jct, line):
-        self.logger = logging.getLogger('biliup-py')
+        self.logger = logging.getLogger('biliupload')
         self.SESSDATA = sessdata
         self.bili_jct = bili_jct
         self.auth_cookies = {
@@ -251,7 +251,7 @@ class BiliUploader(object):
 
         # customize tags
         if not tags:
-            tags_text = 'biliuppy'
+            tags_text = 'biliupload'
         else:
             tags_text = tags
 

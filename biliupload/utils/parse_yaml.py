@@ -1,4 +1,4 @@
-# Copyright (c) 2024 biliup-py.
+# Copyright (c) 2025 biliupload
 
 import yaml
 

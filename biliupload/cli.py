@@ -1,14 +1,13 @@
-
-# Copyright (c) 2024 biliup-py.
+# Copyright (c) 2025 biliupload
 
 import argparse
 import sys
 import os
 import logging
-from login.login_bili import login_bili
-from utils.parse_cookies import parse_cookies
-from upload.bili_upload import BiliUploader
-from utils.parse_yaml import parse_yaml
+from biliupload.login.login_bili import login_bili
+from biliupload.utils.parse_cookies import parse_cookies
+from biliupload.upload.bili_upload import BiliUploader
+from biliupload.utils.parse_yaml import parse_yaml
 
 def cli():
     logging.basicConfig(
@@ -16,7 +15,7 @@ def cli():
         level=logging.INFO
     )
     parser = argparse.ArgumentParser(description='Python implementation of biliup')
-    parser.add_argument('-V', '--version', action='version', version='biliup-py 1.0', help='Print version information')
+    parser.add_argument('-V', '--version', action='version', version='biliupload 1.0', help='Print version information')
 
     subparsers = parser.add_subparsers(dest='subcommand', help='Subcommands')
 
@@ -32,12 +31,11 @@ def cli():
     upload_parser.add_argument('--title', help='(default is video name) The title of video')
     upload_parser.add_argument('--desc', default='', help='(default is empty) The description of video')
     upload_parser.add_argument('--tid', type=int, help='(default is 138) For more info to the type id, refer to https://biliup.github.io/tid-ref.html')
-    upload_parser.add_argument('--tags', help='(default is biliup-py) video tags, separated by comma')
+    upload_parser.add_argument('--tags', help='(default is biliupload) video tags, separated by comma')
     upload_parser.add_argument('--line', default='bda2', help='(default is bda2) line refer to https://biliup.github.io/upload-systems-analysis.html')
 
     args = parser.parse_args()
 
-    sessdata, bili_jct = parse_cookies(args.cookies)
     # Check if no subcommand is provided
     if args.subcommand is None:
         print("No subcommand provided. Please specify a subcommand.")
@@ -48,6 +46,7 @@ def cli():
         login_bili()
 
     if args.subcommand == 'upload':
+        sessdata, bili_jct = parse_cookies(args.cookies)
         if (args.yaml):
             line, copyright, tid, title, desc, tags = parse_yaml(args.yaml)
             BiliUploader(

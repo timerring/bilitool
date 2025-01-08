@@ -1,0 +1,32 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "biliupload" # make sure your module name is unique
+version = "0.0.1"
+authors = [
+  { name="timerring"},
+]
+description = "Login and upload videos to bilibili"
+readme = "README.md"
+license = { file="LICENSE" }
+requires-python = ">=3.10"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+  "lxml_html_clean==0.4.1",
+  "PyYAML==6.0.2",
+  "qrcode==8.0",
+  "Requests==2.32.3",
+  "requests_html==0.10.0",
+]
+
+[project.scripts]
+biliupload = "biliupload.cli:cli"
+
+[project.urls]
+"Homepage" = "https://github.com/timerring/biliupload"
