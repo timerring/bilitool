@@ -1,35 +1,35 @@
 # biliupload
 
-简体中文 | [English](./README-en.md)
+English | [简体中文](./README.md)
 
-> 这是一个 python 版本实现的 [biliup-rs](https://github.com/biliup/biliup-rs)。
+> This is a Python implementation of [biliup-rs](https://github.com/biliup/biliup-rs).
 
-`biliupload` 是一个 python 的命令行工具，用于登录和上传视频到 bilibili，也可以作为其他项目的库使用。
+`biliupload` is a command line tool for logining and uploading videos to bilibili, which can also be used as a library for other projects.
 
-## 功能
+## Features
 
-- 保存 `cookies.json` 用于 bilibili 登录
-- 上传视频
-- 支持上传视频的 yaml 配置
-- 追加视频到已有的视频（正在开发）
-- 显示已发布的视频信息（预计支持）
-- 下载视频（预计支持）
-- 更新 cookies（预计支持）
-- 显示上传进度（预计支持）
+- Save `cookies.json` for bilibili by scanning QR code or web login
+- `Upload` videos
+- Support uploading videos with yaml config
+- `Append` videos to a existing video (WIP)
+- `Show` the published videos infomation (planned feature)
+- `Download` videos (planned feature)
+- `Renew` the cookies (planned feature)
+- Show the upload progress (planned feature)
 
-> 目前我实现了 `login` 和 `upload` 功能，并会继续实现其他功能。欢迎使用并给我更多反馈。欢迎贡献此项目。
+> Over the passed few days, I have implemented the `login` and `upload` functions, and will continue to implement the other functions. Welcome to use and give me more feedback. And welcome to contribute to this project.
 
-## 使用方法
+## Usage
 
-### 安装
+### Installation
 
-> 推荐 Python 版本 >= 3.10.
+> Recommend Python version >= 3.10.
 
 ```bash
 pip install biliupload
 ```
 
-帮助信息：
+Help information:
 
 ```
 usage: biliupload [-h] [-V] {login,upload} ...
@@ -46,18 +46,18 @@ options:
   -V, --version   Print version information
 ```
 
-### 登录
+### Login
 
 ```bash
 biliupload login
 ```
-然后你可以扫描二维码或点击链接登录，`cookie.json` 将保存在当前目录。
+Then you can scan the QR code or click the link to login. The `cookie.json` will be saved in the current directory.
 
 ![](https://cdn.jsdelivr.net/gh/timerring/scratchpad2023/2024/2025-01-08-11-54-34.png)
 
-### 上传
+### Upload
 
-`biliupload upload -h ` 打印帮助信息：
+Help information:
 
 ```bash
 $ biliupload upload -h
@@ -80,22 +80,22 @@ options:
   --line LINE           (default is bda2) line refer to https://biliup.github.io/upload-systems-analysis.html
 ```
 
-示例：
+Example:
 
-你可以参考 [`template/example-config.yaml`](https://github.com/timerring/biliupload/tree/main/template/example-config.yaml) 了解更多的 yaml 模板。
+your can refer the [`template/example-config.yaml`](https://github.com/timerring/biliupload/tree/main/template/example-config.yaml) to know more about the yaml template.
 
 ```bash
-# 视频路径和 cookie 路径是必需的
+# the video path and cookie path are required
 biliupload upload /path/to/your/video.mp4 -c /path/to/your/cookie.json
 
-# 使用命令行参数上传视频
+# upload the video with command line parameters
 biliupload upload /path/to/your/video.mp4 -c /path/to/your/cookie.json --title "test" --desc "test" --tid 138 --tags "test" --line bda2
 
-# 使用 yaml 配置上传视频
+# upload the video with yaml config
 biliupload upload /path/to/your/video.mp4 -c /path/to/your/cookie.json -y /path/to/your/upload/template.yaml
 ```
 
 ## Acknowledgments
 
-- 感谢 [bilibili-API-collect](https://github.com/SocialSisterYi/bilibili-API-collect) 提供的 API 集合。
-- 感谢 [biliup-rs](https://github.com/biliup/biliup-rs) 提供的灵感。
+- Thanks to [bilibili-API-collect](https://github.com/SocialSisterYi/bilibili-API-collect) for the API collection.
+- Thanks to [biliup-rs](https://github.com/biliup/biliup-rs) for the inspiration.
