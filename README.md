@@ -29,6 +29,8 @@
 pip install biliupload
 ```
 
+或者你也可以下载编译好的 cli 工具直接运行 [下载地址](https://github.com/timerring/biliupload/releases)。
+
 帮助信息：
 
 ```

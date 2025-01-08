@@ -29,6 +29,8 @@ English | [简体中文](./README.md)
 pip install biliupload
 ```
 
+You can also download the compiled cli tool directly to run. [download address](https://github.com/timerring/biliupload/releases)
+
 Help information:
 
 ```

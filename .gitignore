@@ -7,3 +7,5 @@ cookie.json
 *.mp4
 upload.yaml
 dist/
+*.spec
+build/
