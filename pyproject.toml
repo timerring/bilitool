@@ -18,11 +18,9 @@ classifiers = [
     "Operating System :: OS Independent",
 ]
 dependencies = [
-  "lxml_html_clean==0.4.1",
   "PyYAML==6.0.2",
   "qrcode==8.0",
-  "Requests==2.32.3",
-  "requests_html==0.10.0",
+  "Requests==2.32.3"
 ]
 
 [project.scripts]
