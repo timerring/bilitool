@@ -1,3 +1,5 @@
+# Copyright (c) 2025 biliupload
+
 import json
 import os
 

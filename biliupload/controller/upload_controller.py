@@ -1,3 +1,5 @@
+# Copyright (c) 2025 biliupload
+
 from biliupload.ioer import ioer
 from biliupload.upload.bili_upload import BiliUploader
 from pathlib import Path
