@@ -35,7 +35,7 @@ def cli():
     upload_parser.add_argument('--tid', type=int, default=138, help='(default is 138) For more info to the type id, refer to https://biliup.github.io/tid-ref.html')
     upload_parser.add_argument('--tag', default='biliupload', help='(default is biliupload) video tags, separated by comma')
     upload_parser.add_argument('--line', default='bda2', help='(default is bda2) line refer to https://biliup.github.io/upload-systems-analysis.html')
-    upload_parser.add_argument('--source', default='', help='(default is empty) The source of video (if your video is re-print)')
+    upload_parser.add_argument('--source', default='来源于网络', help='(default is 来源于网络) The source of video (if your video is re-print)')
     upload_parser.add_argument('--cover', default='', help='(default is empty) The cover of video (if you want to customize, set it as the path to your cover image)')
     upload_parser.add_argument('--dynamic', default='', help='(default is empty) The dynamic information')
 
