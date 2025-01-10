@@ -16,9 +16,12 @@ def parse_yaml(yaml_path):
         tid = streamer_info.get('tid')
         title = streamer_info.get('title')
         desc = streamer_info.get('desc')
-        tags = streamer_info.get('tag')
-
-    return line, copyright, tid, title, desc, tags
+        tag = streamer_info.get('tag')
+        source = streamer_info.get('source')
+        cover = streamer_info.get('cover')
+        dynamic = streamer_info.get('dynamic')
+    return line, copyright, tid, title, desc, tag, source, cover, dynamic
 
 if __name__ == '__main__':
-    parse_yaml('')
+    res = parse_yaml('')
+    print(res)

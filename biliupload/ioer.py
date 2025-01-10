@@ -23,7 +23,7 @@ class ioer:
                 "title": "",
                 "desc": "",
                 "tid": 138,
-                "tags": "biliupload",
+                "tag": "biliupload",
                 "line": "bda2",
                 "source": "\u6765\u6e90\u4e8e\u4e92\u8054\u7f51",
                 "cover": "",
@@ -49,9 +49,15 @@ class ioer:
         self.write(config_info)
 
     def update_specific_config(self, action, key, value):
-        curr_config = self.get_config()
-        curr_config[action][key] = value
-        self.write(curr_config)
+        config_info = self.get_config()
+        config_info[action][key] = value
+        self.write(config_info)
+
+    def update_multiple_config(self, action, updates: dict):
+        config_info = self.get_config()
+        for key, value in updates.items():
+            config_info[action][key] = value
+        self.write(config_info)
 
     def get_config(self):
         if not os.path.exists(self.path):

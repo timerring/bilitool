@@ -182,7 +182,7 @@ class BiliUploader(object):
                 'tid': self.config["upload"]["tid"],
                 'title': self.config["upload"]["title"],
                 'cover': self.config["upload"]["cover"],
-                'tag': self.config["upload"]["tags"],
+                'tag': self.config["upload"]["tag"],
                 'desc_format_id': 0,
                 'desc': self.config["upload"]["desc"],
                 'dynamic': self.config["upload"]["dynamic"],
