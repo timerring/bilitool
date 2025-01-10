@@ -12,28 +12,18 @@ import requests
 from biliupload.utils.parse_cookies import parse_cookies
 
 # you can test your best cdn line https://member.bilibili.com/preupload?r=ping
-cdn_lines = {
-    'qn': 'upos-sz-upcdnqn.bilivideo.com',
-    'bda2': 'upos-sz-upcdnbda2.bilivideo.com',
-}
+# cdn_lines = {
+#     'qn': 'upos-sz-upcdnqn.bilivideo.com',
+#     'bda2': 'upos-sz-upcdnbda2.bilivideo.com',
+# }
 
 class BiliUploader(object):
-    ua = {
-        'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64; rv:71.0) Gecko/20100101 Firefox/71.0',
-    }
-
-    def __init__(self, sessdata, bili_jct, line):
-        self.logger = logging.getLogger('biliupload')
-        self.SESSDATA = sessdata
-        self.bili_jct = bili_jct
-        self.auth_cookies = {
-            'SESSDATA': sessdata,
-            'bili_jct': bili_jct
-        }
+    def __init__(self, config, logger):
+        self.logger = logger
+        self.config = config
         self.session = requests.Session()
-        self.session.cookies = requests.utils.cookiejar_from_dict(self.auth_cookies)
-        self.session.headers = self.ua
-        self.line = line
+        self.session.headers = self.config["headers"]
+        self.session.cookies = requests.utils.cookiejar_from_dict(self.config["cookies"])
 
     def preupload(self, *, filename, filesize):
         """The preupload process to get `upos_uri` and `auth` information.
@@ -67,7 +57,7 @@ class BiliUploader(object):
             'ssl':	0,
             'version':	'2.8.9',
             'build': '2080900',
-            'upcdn': self.line,
+            'upcdn': 'bda2',
             'probe_version': '20200810'
         }
         res_json = self.session.get(
@@ -77,6 +67,7 @@ class BiliUploader(object):
         ).json()
         assert res_json['OK'] == 1
         self.logger.info('Completed preupload phase')
+        # print(res_json)
         return res_json
 
     def get_upload_video_id(self, *, upos_uri, auth):
@@ -93,10 +84,11 @@ class BiliUploader(object):
         - upload_id: str
             the id of the video to be uploaded
         """
-        url = f'https://{cdn_lines[self.line]}/{upos_uri}?uploads&output=json'
+        url = f'https://upos-sz-upcdnbda2.bilivideo.com/{upos_uri}?uploads&output=json'
         res_json = self.session.post(url, headers={'X-Upos-Auth': auth}).json()
         assert res_json['OK'] == 1
         self.logger.info('Completed upload_id obtaining phase')
+        # print(res_json)
         return res_json
 
     def upload_video_in_chunks(self, *, upos_uri, auth, upload_id, fileio, filesize, chunk_size, chunks):
@@ -119,7 +111,7 @@ class BiliUploader(object):
         - chunks: int
             the number of chunks to be uploaded
         """
-        url = f'https://{cdn_lines[self.line]}/{upos_uri}'
+        url = f'https://upos-sz-upcdnbda2.bilivideo.com/{upos_uri}'
         params = {
             'partNumber': None,  # start from 1
             'uploadId':	upload_id,
@@ -143,6 +135,7 @@ class BiliUploader(object):
                                    'X-Upos-Auth': auth})
             assert res.status_code == 200
             self.logger.debug(f'Completed chunk{chunknum+1} uploading')
+            # print(res)
 
     def finish_upload(self, *, upos_uri, auth, filename, upload_id, biz_id, chunks):
         """Notify the all chunks have been uploaded.
@@ -162,7 +155,7 @@ class BiliUploader(object):
         - chunks: int
             the number of chunks to be uploaded
         """
-        url = f'https://{cdn_lines[self.line]}/{upos_uri}'
+        url = f'https://upos-sz-upcdnbda2.bilivideo.com/{upos_uri}'
         params = {
             'output':	'json',
             'name':	filename,
@@ -175,90 +168,29 @@ class BiliUploader(object):
         res_json = self.session.post(url, params=params, json=data,
                                      headers={'X-Upos-Auth': auth}).json()
         assert res_json['OK'] == 1
+        # print(res_json)
 
-    def publish_video(self, bilibili_filename, title, tid, tags, source='来源于网络', copyright=2, desc='', cover_url=''):
+    # API docs: https://github.com/SocialSisterYi/bilibili-API-collect/blob/master/docs/creativecenter/upload.md
+    def publish_video(self, bilibili_filename):
         """publish the uploaded video"""
-        url = f'https://member.bilibili.com/x/vu/web/add?csrf={self.bili_jct}'
-        data = {'copyright': copyright,
+        url = f'https://member.bilibili.com/x/vu/web/add?csrf={self.config["cookies"]["bili_jct"]}'
+        data = {'copyright': self.config["upload"]["copyright"],
                 'videos': [{'filename': bilibili_filename,
-                            'title': title,
-                            'desc': desc}],
-                'source': source,
-                'tid': tid,
-                'cover': cover_url,
-                'title': title,
-                'tag': tags,
+                            'title': self.config["upload"]["title"],
+                            'desc': self.config["upload"]["desc"]}],
+                'source': self.config["upload"]["source"],
+                'tid': self.config["upload"]["tid"],
+                'title': self.config["upload"]["title"],
+                'cover': self.config["upload"]["cover"],
+                'tag': self.config["upload"]["tags"],
                 'desc_format_id': 0,
-                'desc': desc,
-                'dynamic': '',
+                'desc': self.config["upload"]["desc"],
+                'dynamic': self.config["upload"]["dynamic"],
                 'subtitle': {'open': 0, 'lan': ''}}
-        if copyright != 2:
+        if self.config["upload"]["copyright"] != 2:
             del data['source']
             # copyright: 1 original 2 reprint
             data['copyright'] = 1
-            # interactive: 0 no 1 yes
-            data['interactive'] = 0
-            # no_reprint: 0 no 1 yes
-            data['no_reprint'] = 1
         res_json = self.session.post(url, json=data, headers={'TE': 'Trailers'}).json()
+        # print(res_json)
         return res_json
-
-    def upload_and_publish_video(self, file, *, title=None, desc='', copyright=2, tid=None, tags=None):
-        """upload and publish video on bilibili"""
-        file = Path(file)
-        assert file.exists(), f'The file {file} does not exist'
-        filename = file.name
-        title = title or file.stem
-        filesize = file.stat().st_size
-        self.logger.info(f'The {title} to be uploaded')
-
-        # upload video
-        self.logger.info('Start preuploading the video')
-        pre_upload_response = self.preupload(filename=filename, filesize=filesize)
-        upos_uri = pre_upload_response['upos_uri'].split('//')[-1]
-        auth = pre_upload_response['auth']
-        biz_id = pre_upload_response['biz_id']
-        chunk_size = pre_upload_response['chunk_size']
-        chunks = ceil(filesize/chunk_size)
-
-        self.logger.info('Start uploading the video')
-        upload_video_id_response = self.get_upload_video_id(upos_uri=upos_uri, auth=auth)
-        upload_id = upload_video_id_response['upload_id']
-        key = upload_video_id_response['key']
-
-        bilibili_filename = re.search(r'/(.*)\.', key).group(1)
-
-        self.logger.info(f'Uploading the video in {chunks} batches')
-        fileio = file.open(mode='rb')
-        self.upload_video_in_chunks(
-            upos_uri=upos_uri,
-            auth=auth,
-            upload_id=upload_id,
-            fileio=fileio,
-            filesize=filesize,
-            chunk_size=chunk_size,
-            chunks=chunks
-        )
-        fileio.close()
-
-        # notify the all chunks have been uploaded
-        self.finish_upload(upos_uri=upos_uri, auth=auth, filename=filename,
-                           upload_id=upload_id, biz_id=biz_id, chunks=chunks)
-
-        # select tid
-        tid = 138
-
-        # customize tags
-        if not tags:
-            tags_text = 'biliupload'
-        else:
-            tags_text = tags
-
-        # customize video cover
-        # cover_url = 
-
-        # publish video
-        publish_video_response = self.publish_video(bilibili_filename=bilibili_filename, title=title,
-                       tid=tid, tags=tags_text, copyright=copyright, desc=desc)
-        bvid = publish_video_response['data']['bvid']
-        self.logger.info(f'[{title}]upload success!\tbvid:{bvid}')
