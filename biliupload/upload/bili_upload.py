@@ -8,8 +8,7 @@ from math import ceil
 from json import dumps
 from pathlib import Path
 from time import sleep
-from requests_html import HTMLSession
-from requests.utils import cookiejar_from_dict
+import requests
 from biliupload.utils.parse_cookies import parse_cookies
 
 # you can test your best cdn line https://member.bilibili.com/preupload?r=ping
@@ -31,8 +30,8 @@ class BiliUploader(object):
             'SESSDATA': sessdata,
             'bili_jct': bili_jct
         }
-        self.session = HTMLSession()
-        self.session.cookies = cookiejar_from_dict(self.auth_cookies)
+        self.session = requests.Session()
+        self.session.cookies = requests.utils.cookiejar_from_dict(self.auth_cookies)
         self.session.headers = self.ua
         self.line = line
 
