@@ -6,6 +6,7 @@ import time
 import json
 import qrcode
 from urllib.parse import urlencode
+from biliupload.ioer import ioer
 
 APP_KEY = "4409e2ce8ffd12b8"
 APP_SEC = "59b43e04ad6965f34319062b478f83dd"
@@ -45,7 +46,7 @@ def get_tv_qrcode_url_and_auth_code():
     else:
         raise Exception("get_tv_qrcode_url_and_auth_code error")
 
-def verify_login(auth_code):
+def verify_login(auth_code, export):
     api = "https://passport.bilibili.com/x/passport-tv-login/qrcode/poll"
     data = {
         "auth_code": auth_code,
@@ -56,23 +57,28 @@ def verify_login(auth_code):
     while True:
         body = execute_curl_command(api, data)
         if body['code'] == 0:
-            print("Login success!")
             filename = "cookie.json"
-            with open(filename, 'w', encoding='utf-8') as f:
-                json.dump(body, f, ensure_ascii=False, indent=4)
-            print(f"cookie has been saved to {filename}")
+            if export:
+                with open(filename, 'w', encoding='utf-8') as f:
+                    json.dump(body, f, ensure_ascii=False, indent=4)
+                print(f"cookie has been saved to {filename}")
+
+            sessdata_value = body['data']['cookie_info']['cookies'][0]['value']
+            bili_jct_value = body['data']['cookie_info']['cookies'][1]['value']
+            ioer().save_cookies_info(sessdata_value, bili_jct_value)
+            print("Login success!")
             break
         else:
             time.sleep(3)
 
-def login_bili():
+def login_bili(export):
     input("Please maximize the window to ensure the QR code is fully displayed, press Enter to continue: ")
     login_url, auth_code = get_tv_qrcode_url_and_auth_code()
     qr = qrcode.QRCode()
     qr.add_data(login_url)
     qr.print_ascii()
     print("Or copy this link to your phone Bilibili:", login_url)
-    verify_login(auth_code)
+    verify_login(auth_code, export)
 
 if __name__ == "__main__":
     login_bili()

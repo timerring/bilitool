@@ -9,4 +9,4 @@ upload.yaml
 dist/
 *.spec
 build/
-biliupload/config.json
+test.py

@@ -1,0 +1,25 @@
+{
+    "headers": {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36"
+    },
+    "cookies": {
+        "SESSDATA": "",
+        "bili_jct": ""
+    },
+    "upload": {
+        "copyright": 2,
+        "title": "",
+        "desc": "",
+        "tid": 138,
+        "tags": "biliupload",
+        "line": "bda2",
+        "source": "\u6765\u6e90\u4e8e\u4e92\u8054\u7f51",
+        "cover": "",
+        "dynamic": ""
+    },
+    "download": {
+        "dm": 1,
+        "qn": 999,
+        "chunk_size": 1024
+    }
+}
