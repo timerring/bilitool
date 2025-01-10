@@ -7,19 +7,19 @@
         "bili_jct": ""
     },
     "upload": {
+        "line": "bda2",
         "copyright": 2,
         "title": "",
         "desc": "",
         "tid": 138,
-        "tags": "biliupload",
-        "line": "bda2",
-        "source": "\u6765\u6e90\u4e8e\u4e92\u8054\u7f51",
+        "tag": "biliupload",
+        "source": "",
         "cover": "",
         "dynamic": ""
     },
     "download": {
         "dm": 1,
-        "qn": 999,
+        "qn": 80,
         "chunk_size": 1024
     }
 }

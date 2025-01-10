@@ -63,7 +63,7 @@ Help information:
 
 ```bash
 $ biliupload upload -h
-usage: biliupload upload [-h] -c COOKIES [-y YAML] [--copyright COPYRIGHT] [--title TITLE] [--desc DESC] [--tid TID] [--tags TAGS] [--line LINE] video_path
+usage: biliupload upload [-h] -c COOKIES [-y YAML] [--copyright COPYRIGHT] [--title TITLE] [--desc DESC] [--tid TID] [--tag TAG] [--line LINE] video_path
 
 positional arguments:
   video_path            (required) the path to video file
@@ -78,7 +78,7 @@ options:
   --title TITLE         (default is video name) The title of video
   --desc DESC           (default is empty) The description of video
   --tid TID             (default is 138) For more info to the type id, refer to https://biliup.github.io/tid-ref.html
-  --tags TAGS           (default is biliupload) video tags, separated by comma
+  --tag TAG           (default is biliupload) video tags, separated by comma
   --line LINE           (default is bda2) line refer to https://biliup.github.io/upload-systems-analysis.html
 ```
 
@@ -91,7 +91,7 @@ your can refer the [`template/example-config.yaml`](https://github.com/timerring
 biliupload upload /path/to/your/video.mp4 -c /path/to/your/cookie.json
 
 # upload the video with command line parameters
-biliupload upload /path/to/your/video.mp4 -c /path/to/your/cookie.json --title "test" --desc "test" --tid 138 --tags "test" --line bda2
+biliupload upload /path/to/your/video.mp4 -c /path/to/your/cookie.json --title "test" --desc "test" --tid 138 --tag "test" --line bda2
 
 # upload the video with yaml config
 biliupload upload /path/to/your/video.mp4 -c /path/to/your/cookie.json -y /path/to/your/upload/template.yaml
