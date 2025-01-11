@@ -20,8 +20,9 @@
         "dynamic": ""
     },
     "download": {
-        "dm": 1,
-        "qn": 80,
-        "chunk_size": 1024
+        "danmaku": false,
+        "quality": 64,
+        "chunksize": 1024,
+        "multiple": false
     }
 }
