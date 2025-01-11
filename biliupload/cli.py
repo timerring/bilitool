@@ -20,7 +20,7 @@ def cli():
         level=logging.INFO
     )
     parser = argparse.ArgumentParser(description='Python implementation of biliup')
-    parser.add_argument('-V', '--version', action='version', version='biliupload 0.0.2', help='Print version information')
+    parser.add_argument('-V', '--version', action='version', version='biliupload 0.0.3', help='Print version information')
 
     subparsers = parser.add_subparsers(dest='subcommand', help='Subcommands')
 
