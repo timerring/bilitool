@@ -65,7 +65,9 @@ def verify_login(auth_code, export):
 
             sessdata_value = body['data']['cookie_info']['cookies'][0]['value']
             bili_jct_value = body['data']['cookie_info']['cookies'][1]['value']
-            ioer().save_cookies_info(sessdata_value, bili_jct_value)
+            dede_user_id_value = body['data']['cookie_info']['cookies'][2]['value']
+            dede_user_id_ckmd5_value = body['data']['cookie_info']['cookies'][3]['value']
+            ioer().save_cookies_info(sessdata_value, bili_jct_value, dede_user_id_value, dede_user_id_ckmd5_value)
             print("Login success!")
             break
         else:

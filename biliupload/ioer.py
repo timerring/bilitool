@@ -42,10 +42,12 @@ class ioer:
     def reset_config(self):
         self.write(self.default_config)
 
-    def save_cookies_info(self, sessdata, bili_jct):
+    def save_cookies_info(self, sessdata, bili_jct, dede_user_id, dede_user_id_ckmd5):
         config_info = self.get_config()
         config_info['cookies']['SESSDATA'] = sessdata
         config_info['cookies']['bili_jct'] = bili_jct
+        config_info['cookies']['DedeUserID'] = dede_user_id
+        config_info['cookies']['DedeUserID__ckMd5'] = dede_user_id_ckmd5
         self.write(config_info)
 
     def update_specific_config(self, action, key, value):
@@ -57,6 +59,14 @@ class ioer:
         config_info = self.get_config()
         for key, value in updates.items():
             config_info[action][key] = value
+        self.write(config_info)
+
+    def reset_cookies(self):
+        config_info = self.get_config()
+        config_info['cookies']['SESSDATA'] = ""
+        config_info['cookies']['bili_jct'] = ""
+        config_info['cookies']['DedeUserID'] = ""
+        config_info['cookies']['DedeUserID__ckMd5'] = ""
         self.write(config_info)
 
     def get_config(self):
