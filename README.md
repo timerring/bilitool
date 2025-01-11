@@ -8,11 +8,17 @@
 
 ## 功能
 
-- 持久记忆存储登录状态，同样可以导出 `cookies.json` 用于其他项目
-- 上传视频
-- 支持上传视频的 yaml 配置
-- 更新 cookies（正在开发）
-- 下载视频（正在开发）
+- 持久记忆存储登录状态
+  - 支持导出 `cookies.json` 用于其他项目
+- 退出登录 `logout`
+- 检查登录状态 `check`
+- 上传视频 `upload`
+  - 支持多种自定义参数上传
+  - 支持上传视频的 yaml 配置与解析
+- 下载视频 `download`
+  - 支持下载弹幕
+  - 支持下载多种画质
+  - 支持下载多 p 视频
 - 显示上传进度（正在开发）
 - 追加视频到已有的视频（正在开发）
 - 显示已发布的视频信息（预计支持）
@@ -34,18 +40,22 @@ pip install biliupload
 帮助信息：
 
 ```
-usage: biliupload [-h] [-V] {login,upload} ...
+usage: biliupload [-h] [-V] {login,logout,upload,check,download} ...
 
 Python implementation of biliup
 
 positional arguments:
-  {login,upload}  Subcommands
-    login         login and save the cookies
-    upload        upload the video
+  {login,logout,upload,check,download}
+                        Subcommands
+    login               Login and save the cookie
+    logout              Logout the current account
+    upload              Upload the video
+    check               Check if the user is logged in
+    download            Download the video
 
 options:
-  -h, --help      show this help message and exit
-  -V, --version   Print version information
+  -h, --help            show this help message and exit
+  -V, --version         Print version information
 ```
 
 ### 登录
@@ -68,6 +78,22 @@ options:
   --export    (default is false) export the login cookie file
 ```
 
+### 检查登录状态
+
+> 检查当前登录的账号名称
+
+```bash
+biliupload check
+```
+
+### 退出登录
+
+> 退出登录后，同时会使 `cookies.json` 文件失效（如果登录时使用了 `--export` 参数导出了 cookies）。
+
+```bash
+biliupload logout
+```
+
 ### 上传
 
 > 注意：上传功能需要先登录，登录后会记忆登录状态，下次上传时不需要再次登录。
@@ -75,7 +101,6 @@ options:
 `biliupload upload -h ` 打印帮助信息：
 
 ```bash
-$ biliupload upload -h
 usage: biliupload upload [-h] [-y YAML] [--copyright COPYRIGHT] [--title TITLE] [--desc DESC] [--tid TID] [--tag TAG] [--line LINE] [--source SOURCE] [--cover COVER]
                          [--dynamic DYNAMIC]
                          video_path
@@ -111,6 +136,34 @@ biliupload upload /path/to/your/video.mp4 --title "test" --desc "test" --tid 138
 
 # 使用 yaml 配置上传视频
 biliupload upload /path/to/your/video.mp4 -y /path/to/your/upload/template.yaml
+```
+
+### 下载
+
+> 注意：如果要下载高清以上画质的视频，需要先登录才能获取下载。
+
+`biliupload download -h ` 打印帮助信息：
+
+```bash
+usage: biliupload download [-h] [--danmaku] [--quality QUALITY] [--chunksize CHUNKSIZE] [--multiple] bvid
+
+positional arguments:
+  bvid                  (required) the bvid of video
+
+options:
+  -h, --help            show this help message and exit
+  --danmaku             (default is false) download the danmaku of video
+  --quality QUALITY     (default is 64) the resolution of video
+  --chunksize CHUNKSIZE
+                        (default is 1024) the chunk size of video
+  --multiple            (default is false) download the multiple videos if have set
+```
+
+示例：
+
+```bash
+# 下载序号为 bvid 的视频，并下载弹幕，设置画质为 1080p 高清，分段大小为 1024，如果有多 p，则一次性下载所有视频
+biliupload download bvid --danmaku --quality 80 --chunksize 1024 --multiple
 ```
 
 ## Acknowledgments

@@ -4,20 +4,26 @@ English | [简体中文](./README.md)
 
 > This is a Python implementation of [biliup-rs](https://github.com/biliup/biliup-rs).
 
-`biliupload` is a command line tool for logining and uploading videos to bilibili, which can also be used as a library for other projects.
+`biliupload` is a command line tool for logging in and uploading videos to bilibili, which can also be used as a library for other projects.
 
 ## Features
 
-- Save `cookies.json` for bilibili by scanning QR code or web login
+- Persistent memory storage of login status
+  - Support exporting `cookies.json` for other projects
+- `Logout` the current account
+- `Check` the login status
 - `Upload` videos
-- Support uploading videos with yaml config
-- `Append` videos to a existing video (WIP)
-- `Show` the published videos infomation (planned feature)
-- `Download` videos (planned feature)
-- `Renew` the cookies (planned feature)
-- Show the upload progress (planned feature)
+  - Support uploading videos with custom parameters
+  - Support uploading videos with yaml config
+- `Download` videos
+  - Support downloading danmaku
+  - Support downloading various qualities
+  - Support downloading multi-part videos
+- Show the upload progress (in development)
+- Append videos to an existing video (in development)
+- Show the published videos information (planned feature)
 
-> Over the passed few days, I have implemented the `login` and `upload` functions, and will continue to implement the other functions. Welcome to use and give me more feedback. And welcome to contribute to this project.
+> Currently, I have implemented the `login` and `upload` functions and will continue to implement other features. Welcome to use and give me more feedback. And welcome to contribute to this project.
 
 ## Usage
 
@@ -29,23 +35,27 @@ English | [简体中文](./README.md)
 pip install biliupload
 ```
 
-You can also download the compiled cli tool directly to run. [download address](https://github.com/timerring/biliupload/releases)
+You can also download the compiled CLI tool directly to run. [Download address](https://github.com/timerring/biliupload/releases)
 
 Help information:
 
 ```
-usage: biliupload [-h] [-V] {login,upload} ...
+usage: biliupload [-h] [-V] {login,logout,upload,check,download} ...
 
 Python implementation of biliup
 
 positional arguments:
-  {login,upload}  Subcommands
-    login         login and save the cookies
-    upload        upload the video
+  {login,logout,upload,check,download}
+                        Subcommands
+    login               Login and save the cookies
+    logout              Logout the current account
+    upload              Upload the video
+    check               Check if the user is logged in
+    download            Download the video
 
 options:
-  -h, --help      show this help message and exit
-  -V, --version   Print version information
+  -h, --help            show this help message and exit
+  -V, --version         Print version information
 ```
 
 ### Login
@@ -68,12 +78,29 @@ options:
   --export    (default is false) export the login cookie file
 ```
 
+### Check Login Status
+
+> Check the name of the currently logged-in account
+
+```bash
+biliupload check
+```
+
+### Logout
+
+> After logging out, the `cookies.json` file will also become invalid (if the `--export` parameter was used to export cookies during login).
+
+```bash
+biliupload logout
+```
+
 ### Upload
+
+> Note: The upload function requires login first. After logging in, the login status will be remembered, and you do not need to log in again for the next upload.
 
 `biliupload upload -h ` print help information:
 
 ```bash
-$ biliupload upload -h
 usage: biliupload upload [-h] [-y YAML] [--copyright COPYRIGHT] [--title TITLE] [--desc DESC] [--tid TID] [--tag TAG] [--line LINE] [--source SOURCE] [--cover COVER]
                          [--dynamic DYNAMIC]
                          video_path
@@ -98,7 +125,7 @@ options:
 
 Example:
 
-your can refer the [`template/example-config.yaml`](https://github.com/timerring/biliupload/tree/main/template/example-config.yaml) to know more about the yaml template.
+You can refer to the [`template/example-config.yaml`](https://github.com/timerring/biliupload/tree/main/template/example-config.yaml) to know more about the yaml template.
 
 ```bash
 # the video path is required
@@ -109,6 +136,34 @@ biliupload upload /path/to/your/video.mp4 --title "test" --desc "test" --tid 138
 
 # upload the video with yaml config
 biliupload upload /path/to/your/video.mp4 -y /path/to/your/upload/template.yaml
+```
+
+### Download
+
+> Note: To download videos in high quality or above, you need to log in first to obtain the download.
+
+`biliupload download -h ` print help information:
+
+```bash
+usage: biliupload download [-h] [--danmaku] [--quality QUALITY] [--chunksize CHUNKSIZE] [--multiple] bvid
+
+positional arguments:
+  bvid                  (required) the bvid of video
+
+options:
+  -h, --help            show this help message and exit
+  --danmaku             (default is false) download the danmaku of video
+  --quality QUALITY     (default is 64) the resolution of video
+  --chunksize CHUNKSIZE
+                        (default is 1024) the chunk size of video
+  --multiple            (default is false) download the multiple videos if have set
+```
+
+Example:
+
+```bash
+# Download the video with bvid, download danmaku, set quality to 1080p HD, chunk size to 1024, and download all videos if there are multiple parts
+biliupload download bvid --danmaku --quality 80 --chunksize 1024 --multiple
 ```
 
 ## Acknowledgments
