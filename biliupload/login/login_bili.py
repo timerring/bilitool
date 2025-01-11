@@ -26,7 +26,9 @@ def execute_curl_command(api, data):
     data_string = map_to_string(data)
     headers = "Content-Type: application/x-www-form-urlencoded"
     curl_command = f"curl -X POST -H \"{headers}\" -d \"{data_string}\" {api}"
-    result = subprocess.run(curl_command, shell=True, capture_output=True, text=True)
+    result = subprocess.run(
+        curl_command, shell=True, capture_output=True, text=True, encoding="utf-8"
+    )
     if result.returncode != 0:
         raise Exception(f"curl command failed: {result.stderr}")
     return json.loads(result.stdout)
