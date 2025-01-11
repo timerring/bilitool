@@ -14,7 +14,21 @@ class UploadController:
         self.logger = logging.getLogger('biliupload')
         self.config = self.ioer.get_config()
         self.bili_uploader = BiliUploader(self.config, self.logger)
-        
+
+    @staticmethod
+    def package_upload_metadata(line, copyright, tid, title, desc, tag, source, cover, dynamic):
+            return {
+                'line': line,
+                'copyright': copyright,
+                'tid': tid,
+                'title': title,
+                'desc': desc,
+                'tag': tag,
+                'source': source,
+                'cover': cover,
+                'dynamic': dynamic
+            }
+
     def upload_and_publish_video(self, file):
         """upload and publish video on bilibili"""
         file = Path(file)

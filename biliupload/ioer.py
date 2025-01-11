@@ -16,7 +16,9 @@ class ioer:
             },
             "cookies": {
                 "SESSDATA": "",
-                "bili_jct": ""
+                "bili_jct": "",
+                "DedeUserID": "",
+                "DedeUserID__ckMd5": ""
             },
             "upload": {
                 "copyright": 2,
@@ -30,9 +32,10 @@ class ioer:
                 "dynamic": ""
             },
             "download": {
-                "dm": 1,
-                "qn": 999,
-                "chunk_size": 1024
+                "danmaku": 1,
+                "quality": 64,
+                "chunksize": 1024,
+                "multiple": False
             }
         }
 
@@ -41,6 +44,14 @@ class ioer:
 
     def reset_config(self):
         self.write(self.default_config)
+
+    def get_headers_with_cookies(self):
+        config_info = self.get_config()
+        cookies = config_info['cookies']
+        cookie_string = "; ".join([f"{key}={value}" for key, value in cookies.items() if value])
+        headers = config_info['headers']
+        headers['Cookie'] = cookie_string
+        return headers
 
     def save_cookies_info(self, sessdata, bili_jct, dede_user_id, dede_user_id_ckmd5):
         config_info = self.get_config()

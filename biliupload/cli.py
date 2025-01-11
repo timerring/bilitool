@@ -12,6 +12,7 @@ from biliupload.utils.parse_yaml import parse_yaml
 from biliupload.controller.upload_controller import UploadController
 from biliupload.login.check_login import CheckLogin
 from biliupload.login.logout_bili import Logout
+from biliupload.controller.download_controller import DownloadController
 
 def cli():
     logging.basicConfig(
@@ -47,6 +48,15 @@ def cli():
     # Check login subcommand
     check_login_parser = subparsers.add_parser('check', help='Check if the user is logged in')
 
+    # Download subcommand
+    download_parser = subparsers.add_parser('download', help='Download the video')
+
+    download_parser.add_argument('bvid', help='(required) the bvid of video')
+    download_parser.add_argument('--danmaku', action='store_true', help='(default is false) download the danmaku of video')
+    download_parser.add_argument('--quality', type=int, default=64, help='(default is 64) the resolution of video')
+    download_parser.add_argument('--chunksize', type=int, default=1024, help='(default is 1024) the chunk size of video')
+    download_parser.add_argument('--multiple', action='store_true', help='(default is false) download the multiple videos if have set')
+
     args = parser.parse_args()
 
     # Check if no subcommand is provided
@@ -62,33 +72,28 @@ def cli():
         Logout().logout_bili()
 
     if args.subcommand == 'upload':
-        print(args)
-        def package_video_metadata(line, copyright, tid, title, desc, tag, source, cover, dynamic):
-            return {
-                'line': line,
-                'copyright': copyright,
-                'tid': tid,
-                'title': title,
-                'desc': desc,
-                'tag': tag,
-                'source': source,
-                'cover': cover,
-                'dynamic': dynamic
-            }
+        # print(args)
         if args.yaml:
             # * is used to unpack the tuple
-            video_metadata = package_video_metadata(*parse_yaml(args.yaml))
+            upload_metadata = UploadController.package_upload_metadata(*parse_yaml(args.yaml))
         else:
-            video_metadata = package_video_metadata(
+            upload_metadata = UploadController.package_upload_metadata(
                 args.line, args.copyright, args.tid, args.title, 
                 args.desc, args.tag, args.source, args.cover, args.dynamic
             )
-        ioer().update_multiple_config('upload', video_metadata)
+        ioer().update_multiple_config(args.subcommand, upload_metadata)
         upload_controller = UploadController()
         upload_controller.upload_and_publish_video(args.video_path)
 
     if args.subcommand == 'check':
         CheckLogin().check_bili_login()
+
+    if args.subcommand == 'download':
+        # print(args)
+        download_metadata = DownloadController.package_download_metadata(args.danmaku, args.quality, args.chunksize, args.multiple)
+        ioer().update_multiple_config(args.subcommand, download_metadata)
+        download_controller = DownloadController()
+        download_controller.download_video(args.bvid)
 
 if __name__ == '__main__':
     cli()
