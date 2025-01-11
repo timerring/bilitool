@@ -4,7 +4,9 @@
     },
     "cookies": {
         "SESSDATA": "",
-        "bili_jct": ""
+        "bili_jct": "",
+        "DedeUserID": "",
+        "DedeUserID__ckMd5": ""
     },
     "upload": {
         "line": "bda2",
@@ -13,7 +15,7 @@
         "desc": "",
         "tid": 138,
         "tag": "biliupload",
-        "source": "",
+        "source": "\u6765\u6e90\u4e8e\u7f51\u7edc",
         "cover": "",
         "dynamic": ""
     },
