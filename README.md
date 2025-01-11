@@ -2,9 +2,9 @@
 
 简体中文 | [English](./README-en.md)
 
-> 这是一个 python 版本实现的 [biliup-rs](https://github.com/biliup/biliup-rs)。
+> 如果您觉得项目不错，欢迎 :star: ，欢迎使用并给我提更多需求以及反馈。欢迎 PR 贡献此项目。
 
-`biliupload` 是一个 python 的命令行工具，用于登录和上传视频到 bilibili，也可以作为其他项目的库使用。
+`biliupload` 是一个 python 的工具库，用于登录，上传，下载视频到 bilibili，可以使用命令行操作，也可以作为其他项目的库使用。
 
 ## 功能
 
@@ -22,8 +22,6 @@
 - 显示上传进度（正在开发）
 - 追加视频到已有的视频（正在开发）
 - 显示已发布的视频信息（预计支持）
-
-> 目前我实现了 `login` 和 `upload` 功能，并会继续实现其他功能。欢迎使用并给我更多反馈。欢迎贡献此项目。
 
 ## 使用方法
 
@@ -169,4 +167,4 @@ biliupload download bvid --danmaku --quality 80 --chunksize 1024 --multiple
 ## Acknowledgments
 
 - 感谢 [bilibili-API-collect](https://github.com/SocialSisterYi/bilibili-API-collect) 提供的 API 集合。
-- 感谢 [biliup-rs](https://github.com/biliup/biliup-rs) 提供的灵感。
+- 感谢 [biliup-rs](https://github.com/biliup/biliup-rs) 提供的方向。

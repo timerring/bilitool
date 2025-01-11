@@ -2,9 +2,9 @@
 
 English | [简体中文](./README.md)
 
-> This is a Python implementation of [biliup-rs](https://github.com/biliup/biliup-rs).
+> If you find this project useful, feel free to use it and :star: it, and provide more feedback and requests. Contributions via PR are welcome.
 
-`biliupload` is a command line tool for logging in and uploading videos to bilibili, which can also be used as a library for other projects.
+`biliupload` is a Python library for logging in, uploading, and downloading videos to Bilibili. It can be used via command line operations or as a library in other projects.
 
 ## Features
 
