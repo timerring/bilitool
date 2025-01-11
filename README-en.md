@@ -53,33 +53,47 @@ options:
 ```bash
 biliupload login
 ```
-Then you can scan the QR code or click the link to login. The `cookie.json` will be saved in the current directory.
+
+Then you can scan the QR code or click the link to login. If you add the `--export` parameter when inputting the command, the `cookie.json` file will be exported to the current directory (the `cookie.json` file can be used for other projects).
 
 ![](https://cdn.jsdelivr.net/gh/timerring/scratchpad2023/2024/2025-01-08-11-54-34.png)
 
+`biliupload login -h ` print help information:
+
+```
+usage: biliupload login [-h] [--export]
+
+options:
+  -h, --help  show this help message and exit
+  --export    (default is false) export the login cookie file
+```
+
 ### Upload
 
-Help information:
+`biliupload upload -h ` print help information:
 
 ```bash
 $ biliupload upload -h
-usage: biliupload upload [-h] -c COOKIES [-y YAML] [--copyright COPYRIGHT] [--title TITLE] [--desc DESC] [--tid TID] [--tag TAG] [--line LINE] video_path
+usage: biliupload upload [-h] [-y YAML] [--copyright COPYRIGHT] [--title TITLE] [--desc DESC] [--tid TID] [--tag TAG] [--line LINE] [--source SOURCE] [--cover COVER]
+                         [--dynamic DYNAMIC]
+                         video_path
 
 positional arguments:
   video_path            (required) the path to video file
 
 options:
   -h, --help            show this help message and exit
-  -c COOKIES, --cookies COOKIES
-                        The path to cookies
   -y YAML, --yaml YAML  The path to yaml file(if yaml file is provided, the arguments below will be ignored)
   --copyright COPYRIGHT
                         (default is 2) 1 for original, 2 for reprint
   --title TITLE         (default is video name) The title of video
   --desc DESC           (default is empty) The description of video
   --tid TID             (default is 138) For more info to the type id, refer to https://biliup.github.io/tid-ref.html
-  --tag TAG           (default is biliupload) video tags, separated by comma
+  --tag TAG             (default is biliupload) video tags, separated by comma
   --line LINE           (default is bda2) line refer to https://biliup.github.io/upload-systems-analysis.html
+  --source SOURCE       (default is 来源于网络) The source of video (if your video is re-print)
+  --cover COVER         (default is empty) The cover of video (if you want to customize, set it as the path to your cover image)
+  --dynamic DYNAMIC     (default is empty) The dynamic information
 ```
 
 Example:
@@ -87,14 +101,14 @@ Example:
 your can refer the [`template/example-config.yaml`](https://github.com/timerring/biliupload/tree/main/template/example-config.yaml) to know more about the yaml template.
 
 ```bash
-# the video path and cookie path are required
-biliupload upload /path/to/your/video.mp4 -c /path/to/your/cookie.json
+# the video path is required
+biliupload upload /path/to/your/video.mp4
 
 # upload the video with command line parameters
-biliupload upload /path/to/your/video.mp4 -c /path/to/your/cookie.json --title "test" --desc "test" --tid 138 --tag "test" --line bda2
+biliupload upload /path/to/your/video.mp4 --title "test" --desc "test" --tid 138 --tag "test" --line bda2
 
 # upload the video with yaml config
-biliupload upload /path/to/your/video.mp4 -c /path/to/your/cookie.json -y /path/to/your/upload/template.yaml
+biliupload upload /path/to/your/video.mp4 -y /path/to/your/upload/template.yaml
 ```
 
 ## Acknowledgments
