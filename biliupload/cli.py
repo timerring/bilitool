@@ -10,6 +10,7 @@ from biliupload.utils.parse_cookies import parse_cookies
 from biliupload.upload.bili_upload import BiliUploader
 from biliupload.utils.parse_yaml import parse_yaml
 from biliupload.controller.upload_controller import UploadController
+from biliupload.login.check_login import CheckLogin
 
 def cli():
     logging.basicConfig(
@@ -38,6 +39,9 @@ def cli():
     upload_parser.add_argument('--source', default='来源于网络', help='(default is 来源于网络) The source of video (if your video is re-print)')
     upload_parser.add_argument('--cover', default='', help='(default is empty) The cover of video (if you want to customize, set it as the path to your cover image)')
     upload_parser.add_argument('--dynamic', default='', help='(default is empty) The dynamic information')
+
+    # Login subcommand
+    check_login_parser = subparsers.add_parser('check', help='Check if the user is logged in')
 
     args = parser.parse_args()
 
@@ -75,6 +79,9 @@ def cli():
         ioer().update_multiple_config('upload', video_metadata)
         upload_controller = UploadController()
         upload_controller.upload_and_publish_video(args.video_path)
+
+    if args.subcommand == 'check':
+        CheckLogin().check_bili_login()
 
 if __name__ == '__main__':
     cli()
