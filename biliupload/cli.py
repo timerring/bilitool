@@ -13,6 +13,7 @@ from biliupload.controller.upload_controller import UploadController
 from biliupload.login.check_login import CheckLogin
 from biliupload.login.logout_bili import Logout
 from biliupload.controller.download_controller import DownloadController
+from biliupload.utils.get_ip_info import IPInfo
 
 def cli():
     logging.basicConfig(
@@ -57,6 +58,9 @@ def cli():
     download_parser.add_argument('--chunksize', type=int, default=1024, help='(default is 1024) the chunk size of video')
     download_parser.add_argument('--multiple', action='store_true', help='(default is false) download the multiple videos if have set')
 
+    ip_parser = subparsers.add_parser('ip', help='Get the ip info')
+    ip_parser.add_argument('--ip', default='', help='(default is your request ip) The ip address')
+
     args = parser.parse_args()
 
     # Check if no subcommand is provided
@@ -94,6 +98,9 @@ def cli():
         ioer().update_multiple_config(args.subcommand, download_metadata)
         download_controller = DownloadController()
         download_controller.download_video(args.bvid)
+
+    if args.subcommand == 'ip':
+        IPInfo.get_ip_address(args.ip)
 
 if __name__ == '__main__':
     cli()
