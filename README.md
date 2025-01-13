@@ -2,7 +2,7 @@
 
 简体中文 | [English](./README-en.md)
 
-> 如果您觉得项目不错，欢迎 :star: ，欢迎使用并给我提更多需求以及反馈。欢迎 PR 贡献此项目。
+> 欢迎使用，欢迎提供更多反馈，欢迎 PR 贡献此项目。
 
 `biliupload` 是一个 python 的工具库，用于登录，上传，下载视频到 bilibili，可以使用命令行操作，也可以作为其他项目的库使用。
 
@@ -19,6 +19,8 @@
   - 支持下载弹幕
   - 支持下载多种画质
   - 支持下载多 p 视频
+- 显示请求 IP 地址
+  - 支持查询指定 IP 地址
 - 显示上传进度（正在开发）
 - 追加视频到已有的视频（正在开发）
 - 显示已发布的视频信息（预计支持）
@@ -38,18 +40,19 @@ pip install biliupload
 帮助信息：
 
 ```
-usage: biliupload [-h] [-V] {login,logout,upload,check,download} ...
+usage: cli.py [-h] [-V] {login,logout,upload,check,download,ip} ...
 
 Python implementation of biliup
 
 positional arguments:
-  {login,logout,upload,check,download}
+  {login,logout,upload,check,download,ip}
                         Subcommands
     login               Login and save the cookie
     logout              Logout the current account
     upload              Upload the video
     check               Check if the user is logged in
     download            Download the video
+    ip                  Get the ip info
 
 options:
   -h, --help            show this help message and exit
@@ -162,6 +165,26 @@ options:
 ```bash
 # 下载序号为 bvid 的视频，并下载弹幕，设置画质为 1080p 高清，分段大小为 1024，如果有多 p，则一次性下载所有视频
 biliupload download bvid --danmaku --quality 80 --chunksize 1024 --multiple
+```
+
+### 查询 IP 地址
+
+`biliupload ip -h ` 打印帮助信息：
+
+```bash
+usage: biliupload ip [-h] [--ip IP]
+
+options:
+  -h, --help  show this help message and exit
+  --ip IP     the ip address you want to query
+```
+
+示例：
+
+```bash
+biliupload ip
+biliupload ip --ip 8.8.8.8
+# IP: 8.8.8.8, ISP: level3.com, Location: GOOGLE.COMGOOGLE.COM, Position: ,
 ```
 
 ## Acknowledgments
