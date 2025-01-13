@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "biliupload" # make sure your module name is unique
-version = "0.0.3"
+version = "0.0.4"
 authors = [
   { name="timerring"},
 ]
