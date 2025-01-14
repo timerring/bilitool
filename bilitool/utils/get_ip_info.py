@@ -3,6 +3,23 @@
 import http.client
 import urllib.parse
 import json
+import inspect
+
+def suppress_print_in_unittest(func):
+    def wrapper(*args, **kwargs):
+        # Check if the caller is a unittest
+        for frame_info in inspect.stack():
+            if 'unittest' in frame_info.filename:
+                # If called from unittest, suppress print
+                return func(*args, **kwargs)
+        
+        result = func(*args, **kwargs)
+        if result:
+            addr, isp, location, position = result
+            print(f"IP: {addr}, ISP: {isp}, Location: {location}, Position: {position}")
+        return result
+    return wrapper
+
 
 class IPInfo:
     @staticmethod
@@ -28,6 +45,7 @@ class IPInfo:
         return IPInfo.print_ip_info(data)
 
     @staticmethod
+    @suppress_print_in_unittest
     def print_ip_info(ip_info):
         if ip_info['code'] != 0:
             return None
@@ -36,5 +54,4 @@ class IPInfo:
             isp = ip_info['data']['isp']
             location = ip_info['data']['country'] + ip_info['data']['province'] + ip_info['data']['city']
             position = ip_info['data']['latitude'] + ',' + ip_info['data']['longitude']
-            print(f"IP: {addr}, ISP: {isp}, Location: {location}, Position: {position}")
             return addr, isp, location, position
