@@ -1,7 +1,9 @@
+# Copyright (c) 2025 bilitool
+
 import requests
 import time
 import sys
-from biliupload.ioer import ioer
+from bilitool.authenticate.ioer import ioer
 
 def print_progress(progress, total):
     width = 40

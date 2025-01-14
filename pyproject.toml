@@ -3,8 +3,8 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "biliupload" # make sure your module name is unique
-version = "0.0.4"
+name = "bilitool" # make sure your module name is unique
+version = "0.1.0"
 authors = [
   { name="timerring"},
 ]
@@ -24,7 +24,7 @@ dependencies = [
 ]
 
 [project.scripts]
-biliupload = "biliupload.cli:cli"
+bilitool = "bilitool.cli:cli"
 
 [project.urls]
-"Homepage" = "https://github.com/timerring/biliupload"
+"Homepage" = "https://github.com/timerring/bilitool"

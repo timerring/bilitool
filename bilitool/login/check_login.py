@@ -1,4 +1,6 @@
-from biliupload.ioer import ioer
+# Copyright (c) 2025 bilitool
+
+from bilitool.authenticate.ioer import ioer
 import requests
 import json
 

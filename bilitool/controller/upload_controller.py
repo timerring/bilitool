@@ -1,7 +1,7 @@
-# Copyright (c) 2025 biliupload
+# Copyright (c) 2025 bilitool
 
-from biliupload.ioer import ioer
-from biliupload.upload.bili_upload import BiliUploader
+from bilitool.authenticate.ioer import ioer
+from bilitool.upload.bili_upload import BiliUploader
 from pathlib import Path
 import re
 from math import ceil
@@ -11,7 +11,7 @@ import logging
 class UploadController:
     def __init__(self):
         self.ioer = ioer()
-        self.logger = logging.getLogger('biliupload')
+        self.logger = logging.getLogger('bilitool')
         self.config = self.ioer.get_config()
         self.bili_uploader = BiliUploader(self.config, self.logger)
 

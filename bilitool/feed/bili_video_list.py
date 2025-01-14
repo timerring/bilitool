@@ -1,10 +1,10 @@
+# Copyright (c) 2025 bilitool
+
 import time
 import requests
-import uuid
-from biliupload.utils.check_format import CheckFormat
-from biliupload.ioer import ioer
-from biliupload.authenticate.wbi_sign import WbiSign
-from biliupload.feed import VideoListInfo, state_dict
+from bilitool.authenticate.ioer import ioer
+from bilitool.authenticate.wbi_sign import WbiSign
+from bilitool.feed import VideoListInfo, state_dict
 
 
 class BiliVideoList(object):

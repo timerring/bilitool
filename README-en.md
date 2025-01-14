@@ -1,57 +1,58 @@
-# biliupload
+# bilitool
 
-English | [简体中文](./README.md)
+[简体中文](./README.md) | English
 
-> If you find this project useful, feel free to use it and :star: it, and provide more feedback and requests. Contributions via PR are welcome.
+> Welcome to use, feel free to provide feedback, and contribute to this project via PR.
 
-`biliupload` is a Python library for logging in, uploading, and downloading videos to Bilibili. It can be used via command line operations or as a library in other projects.
+`bilitool` is a Python toolkit for logging in, downloading videos, uploading videos to Bilibili, and more. It can be operated via command-line CLI or used as a library in other projects.
 
 ## Features
 
-- Persistent memory storage of login status
-  - Support exporting `cookies.json` for other projects
-- `Logout` the current account
-- `Check` the login status
-- `Upload` videos
-  - Support uploading videos with custom parameters
-  - Support uploading videos with yaml config
-- `Download` videos
-  - Support downloading danmaku
-  - Support downloading various qualities
-  - Support downloading multi-part videos
-- Show the upload progress (in development)
-- Append videos to an existing video (in development)
-- Show the published videos information (planned feature)
-
-> Currently, I have implemented the `login` and `upload` functions and will continue to implement other features. Welcome to use and give me more feedback. And welcome to contribute to this project.
+- `login` Remember and store login status
+  - Supports exporting `cookies.json` for use in other projects
+- `logout` Log out
+- `check` Check login status
+- `upload` Upload videos
+  - Supports various custom parameters for uploading
+  - Supports YAML configuration and parsing for video uploads
+- `download` Download videos
+  - Supports downloading danmaku (comments)
+  - Supports downloading in various qualities
+  - Supports downloading multi-part videos
+- `ip` Display request IP address
+  - Supports querying specified IP addresses
+- `list` Query the status of past video submissions
+  - If a video fails review, the reason will be displayed
+- Display published video information (planned support)
+- Display upload progress (in development)
+- Append videos to existing videos (in development)
 
 ## Usage
 
 ### Installation
 
-> Recommend Python version >= 3.10.
+> Recommended Python version >= 3.10.
 
 ```bash
-pip install biliupload
+pip install bilitool
 ```
 
-You can also download the compiled CLI tool directly to run. [Download address](https://github.com/timerring/biliupload/releases)
+Alternatively, you can download the compiled CLI tool and run it directly [Download link](https://github.com/timerring/bilitool/releases).
 
 Help information:
 
 ```
-usage: biliupload [-h] [-V] {login,logout,upload,check,download} ...
-
-Python implementation of biliup
+usage: cli.py [-h] [-V] {login,logout,upload,check,download,ip} ...
 
 positional arguments:
-  {login,logout,upload,check,download}
+  {login,logout,upload,check,download,ip}
                         Subcommands
-    login               Login and save the cookies
+    login               Login and save the cookie
     logout              Logout the current account
     upload              Upload the video
     check               Check if the user is logged in
     download            Download the video
+    ip                  Get the IP info
 
 options:
   -h, --help            show this help message and exit
@@ -61,17 +62,17 @@ options:
 ### Login
 
 ```bash
-biliupload login
+bilitool login
 ```
 
-Then you can scan the QR code or click the link to login. If you add the `--export` parameter when inputting the command, the `cookie.json` file will be exported to the current directory (the `cookie.json` file can be used for other projects).
+Then you can scan the QR code or click the link to log in. If you add the `--export` parameter when entering the command, a `cookie.json` file will be exported to the current directory (the `cookie.json` file can be used in other projects).
 
 ![](https://cdn.jsdelivr.net/gh/timerring/scratchpad2023/2024/2025-01-08-11-54-34.png)
 
-`biliupload login -h ` print help information:
+`bilitool login -h` prints help information:
 
 ```
-usage: biliupload login [-h] [--export]
+usage: bilitool login [-h] [--export]
 
 options:
   -h, --help  show this help message and exit
@@ -83,25 +84,25 @@ options:
 > Check the name of the currently logged-in account
 
 ```bash
-biliupload check
+bilitool check
 ```
 
 ### Logout
 
-> After logging out, the `cookies.json` file will also become invalid (if the `--export` parameter was used to export cookies during login).
+> Logging out will also invalidate the `cookies.json` file (if the `--export` parameter was used to export cookies during login).
 
 ```bash
-biliupload logout
+bilitool logout
 ```
 
 ### Upload
 
-> Note: The upload function requires login first. After logging in, the login status will be remembered, and you do not need to log in again for the next upload.
+> Note: The upload function requires login first. After logging in, the login status will be remembered, so you don't need to log in again for the next upload.
 
-`biliupload upload -h ` print help information:
+`bilitool upload -h` prints help information:
 
-```bash
-usage: biliupload upload [-h] [-y YAML] [--copyright COPYRIGHT] [--title TITLE] [--desc DESC] [--tid TID] [--tag TAG] [--line LINE] [--source SOURCE] [--cover COVER]
+```
+usage: bilitool upload [-h] [-y YAML] [--copyright COPYRIGHT] [--title TITLE] [--desc DESC] [--tid TID] [--tag TAG] [--line LINE] [--source SOURCE] [--cover COVER]
                          [--dynamic DYNAMIC]
                          video_path
 
@@ -116,7 +117,7 @@ options:
   --title TITLE         (default is video name) The title of video
   --desc DESC           (default is empty) The description of video
   --tid TID             (default is 138) For more info to the type id, refer to https://biliup.github.io/tid-ref.html
-  --tag TAG             (default is biliupload) video tags, separated by comma
+  --tag TAG             (default is bilitool) video tags, separated by comma
   --line LINE           (default is bda2) line refer to https://biliup.github.io/upload-systems-analysis.html
   --source SOURCE       (default is 来源于网络) The source of video (if your video is re-print)
   --cover COVER         (default is empty) The cover of video (if you want to customize, set it as the path to your cover image)
@@ -125,27 +126,27 @@ options:
 
 Example:
 
-You can refer to the [`template/example-config.yaml`](https://github.com/timerring/biliupload/tree/main/template/example-config.yaml) to know more about the yaml template.
+You can refer to [`template/example-config.yaml`](https://github.com/timerring/bilitool/tree/main/template/example-config.yaml) for more YAML templates.
 
 ```bash
-# the video path is required
-biliupload upload /path/to/your/video.mp4
+# The video path is required
+bilitool upload /path/to/your/video.mp4
 
-# upload the video with command line parameters
-biliupload upload /path/to/your/video.mp4 --title "test" --desc "test" --tid 138 --tag "test" --line bda2
+# Upload video using command-line parameters
+bilitool upload /path/to/your/video.mp4 --title "test" --desc "test" --tid 138 --tag "test" --line bda2
 
-# upload the video with yaml config
-biliupload upload /path/to/your/video.mp4 -y /path/to/your/upload/template.yaml
+# Upload video using YAML configuration
+bilitool upload /path/to/your/video.mp4 -y /path/to/your/upload/template.yaml
 ```
 
 ### Download
 
 > Note: To download videos in high quality or above, you need to log in first to obtain the download.
 
-`biliupload download -h ` print help information:
+`bilitool download -h` prints help information:
 
-```bash
-usage: biliupload download [-h] [--danmaku] [--quality QUALITY] [--chunksize CHUNKSIZE] [--multiple] bvid
+```
+usage: bilitool download [-h] [--danmaku] [--quality QUALITY] [--chunksize CHUNKSIZE] [--multiple] bvid
 
 positional arguments:
   bvid                  (required) the bvid of video
@@ -163,10 +164,52 @@ Example:
 
 ```bash
 # Download the video with bvid, download danmaku, set quality to 1080p HD, chunk size to 1024, and download all videos if there are multiple parts
-biliupload download bvid --danmaku --quality 80 --chunksize 1024 --multiple
+bilitool download bvid --danmaku --quality 80 --chunksize 1024 --multiple
+```
+
+### Query Recent Video Submission Status
+
+`bilitool list -h` prints help information:
+
+```
+usage: bilitool list [-h] [--size SIZE] [--status STATUS]
+
+options:
+  -h, --help       show this help message and exit
+  --size SIZE      (default is 20) the size of video list
+  --status STATUS  (default is all) the status of video list: pubed, not_pubed, is_pubing
+```
+
+Example:
+
+```bash
+# By default, display the recent 20 video submissions
+bilitool list
+# Query the recent 10 video submissions that failed review
+bilitool list --size 10 --status not_pubed
+```
+
+### Query IP Address
+
+`bilitool ip -h` prints help information:
+
+```
+usage: bilitool ip [-h] [--ip IP]
+
+options:
+  -h, --help  show this help message and exit
+  --ip IP     the ip address you want to query
+```
+
+Example:
+
+```bash
+bilitool ip
+bilitool ip --ip 8.8.8.8
+# IP: 8.8.8.8, ISP: level3.com, Location: GOOGLE.COMGOOGLE.COM, Position: ,
 ```
 
 ## Acknowledgments
 
-- Thanks to [bilibili-API-collect](https://github.com/SocialSisterYi/bilibili-API-collect) for the API collection.
-- Thanks to [biliup-rs](https://github.com/biliup/biliup-rs) for the inspiration.
+- Thanks to [bilibili-API-collect](https://github.com/SocialSisterYi/bilibili-API-collect) for providing the API collection.
+- Thanks to [biliup-rs](https://github.com/biliup/biliup-rs) for providing direction.

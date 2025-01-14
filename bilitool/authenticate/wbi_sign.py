@@ -1,11 +1,11 @@
-# Copyright (c) 2025 biliupload
+# Copyright (c) 2025 bilitool
 
 from functools import reduce
 from hashlib import md5
 import urllib.parse
 import time
 import requests
-from biliupload.ioer import ioer
+from bilitool.authenticate.ioer import ioer
 
 # https://github.com/SocialSisterYi/bilibili-API-collect/blob/master/docs/misc/sign/wbi.md
 

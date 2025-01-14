@@ -1,20 +1,20 @@
-# Copyright (c) 2025 biliupload
+# Copyright (c) 2025 bilitool
 
 import argparse
 import sys
 import os
 import logging
-from biliupload.ioer import ioer
-from biliupload.login.login_bili import login_bili
-from biliupload.utils.parse_cookies import parse_cookies
-from biliupload.upload.bili_upload import BiliUploader
-from biliupload.utils.parse_yaml import parse_yaml
-from biliupload.controller.upload_controller import UploadController
-from biliupload.login.check_login import CheckLogin
-from biliupload.login.logout_bili import Logout
-from biliupload.controller.download_controller import DownloadController
-from biliupload.utils.get_ip_info import IPInfo
-from biliupload.feed.bili_video_list import BiliVideoList
+from bilitool.authenticate.ioer import ioer
+from bilitool.login.login_bili import login_bili
+from bilitool.utils.parse_cookies import parse_cookies
+from bilitool.upload.bili_upload import BiliUploader
+from bilitool.utils.parse_yaml import parse_yaml
+from bilitool.controller.upload_controller import UploadController
+from bilitool.login.check_login import CheckLogin
+from bilitool.login.logout_bili import Logout
+from bilitool.controller.download_controller import DownloadController
+from bilitool.utils.get_ip_info import IPInfo
+from bilitool.feed.bili_video_list import BiliVideoList
 
 def cli():
     logging.basicConfig(
@@ -22,7 +22,7 @@ def cli():
         level=logging.INFO
     )
     parser = argparse.ArgumentParser(description='Python implementation of biliup')
-    parser.add_argument('-V', '--version', action='version', version='biliupload 0.0.4', help='Print version information')
+    parser.add_argument('-V', '--version', action='version', version='bilitool 0.0.4', help='Print version information')
 
     subparsers = parser.add_subparsers(dest='subcommand', help='Subcommands')
 
@@ -41,7 +41,7 @@ def cli():
     upload_parser.add_argument('--title', default='', help='(default is video name) The title of video')
     upload_parser.add_argument('--desc', default='', help='(default is empty) The description of video')
     upload_parser.add_argument('--tid', type=int, default=138, help='(default is 138) For more info to the type id, refer to https://biliup.github.io/tid-ref.html')
-    upload_parser.add_argument('--tag', default='biliupload', help='(default is biliupload) Video tags, separated by comma')
+    upload_parser.add_argument('--tag', default='bilitool', help='(default is bilitool) Video tags, separated by comma')
     upload_parser.add_argument('--line', default='bda2', help='(default is bda2) Line refer to https://biliup.github.io/upload-systems-analysis.html')
     upload_parser.add_argument('--source', default='来源于网络', help='(default is 来源于网络) The source of video (if your video is re-print)')
     upload_parser.add_argument('--cover', default='', help='(default is empty) The cover of video (if you want to customize, set it as the path to your cover image)')
@@ -62,7 +62,7 @@ def cli():
     # List subcommand
     list_parser = subparsers.add_parser('list', help='Get the uploaded video list')
     list_parser.add_argument('--size', type=int, default=20, help='(default is 20) the size of video list')
-    list_parser.add_argument('--status', default='pubed,not_pubed,is_pubing', help='(default is all) the status of video list')
+    list_parser.add_argument('--status', default='pubed,not_pubed,is_pubing', help='(default is all) the status of video list: pubed, not_pubed, is_pubing')
 
     # IP subcommand
     ip_parser = subparsers.add_parser('ip', help='Get the ip info')
