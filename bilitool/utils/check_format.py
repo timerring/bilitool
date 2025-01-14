@@ -54,3 +54,9 @@ class CheckFormat(object):
             print("The avid of the video is: ", self.bv2av(str(vid)))
         else:
             print("The bvid of the video is: ", self.av2bv(int(vid)))
+
+    def only_bvid(self, vid: str):
+        if self.is_bvid(str(vid)):
+            return vid
+        else:
+            return self.av2bv(int(vid))
