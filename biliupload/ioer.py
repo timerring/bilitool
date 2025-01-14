@@ -4,6 +4,20 @@ import json
 import os
 
 
+def add_headers_info(referer=None):
+    def decorator(func):
+        def wrapper(self, *args, **kwargs):
+            headers = func(self, *args, **kwargs)
+            config_info = self.get_config()
+            cookies = config_info['cookies']
+            cookie_string = "; ".join([f"{key}={value}" for key, value in cookies.items() if value])
+            headers['Cookie'] = cookie_string
+            if referer:
+                headers['Referer'] = referer
+            return headers
+        return wrapper
+    return decorator
+
 class ioer:
     def __init__(self, path=None) -> None:
         if path is None:
@@ -45,13 +59,13 @@ class ioer:
     def reset_config(self):
         self.write(self.default_config)
 
+    @add_headers_info()
     def get_headers_with_cookies(self):
-        config_info = self.get_config()
-        cookies = config_info['cookies']
-        cookie_string = "; ".join([f"{key}={value}" for key, value in cookies.items() if value])
-        headers = config_info['headers']
-        headers['Cookie'] = cookie_string
-        return headers
+        return self.get_config()['headers']
+
+    @add_headers_info(referer='https://www.bilibili.com/')
+    def get_headers_with_cookies_and_refer(self):
+        return self.get_config()['headers']
 
     def save_cookies_info(self, sessdata, bili_jct, dede_user_id, dede_user_id_ckmd5):
         config_info = self.get_config()
