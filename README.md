@@ -4,7 +4,7 @@
 
 > 欢迎使用，欢迎提供更多反馈，欢迎 PR 贡献此项目。
 
-`bilitool` 是一个 python 的工具库，用于登录，下载视频，上传视频到 bilibili 等功能，可以使用命令行 cli 操作，也可以作为其他项目的库使用。
+`bilitool` 是一个 python 的工具库，实现持久化登录，下载视频，上传视频到 bilibili 等功能，可以使用命令行 cli 操作，也可以作为其他项目的库使用。
 
 ## 功能
 
@@ -42,16 +42,19 @@ pip install bilitool
 帮助信息：
 
 ```
-usage: cli.py [-h] [-V] {login,logout,upload,check,download,ip} ...
+usage: bilitool [-h] [-V] {login,logout,upload,check,download,list,ip} ...
+
+The Python toolkit package and cli designed for interaction with Bilibili
 
 positional arguments:
-  {login,logout,upload,check,download,ip}
+  {login,logout,upload,check,download,list,ip}
                         Subcommands
     login               Login and save the cookie
     logout              Logout the current account
     upload              Upload the video
     check               Check if the user is logged in
     download            Download the video
+    list                Get the uploaded video list
     ip                  Get the ip info
 
 options:

@@ -21,8 +21,8 @@ def cli():
         format='[%(levelname)s] - [%(asctime)s %(name)s] - %(message)s',
         level=logging.INFO
     )
-    parser = argparse.ArgumentParser(description='Python implementation of biliup')
-    parser.add_argument('-V', '--version', action='version', version='bilitool 0.0.4', help='Print version information')
+    parser = argparse.ArgumentParser(description='The Python toolkit package and cli designed for interaction with Bilibili')
+    parser.add_argument('-V', '--version', action='version', version='bilitool 0.1.0', help='Print version information')
 
     subparsers = parser.add_subparsers(dest='subcommand', help='Subcommands')
 
