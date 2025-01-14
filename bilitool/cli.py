@@ -15,6 +15,7 @@ from bilitool.login.logout_bili import Logout
 from bilitool.controller.download_controller import DownloadController
 from bilitool.utils.get_ip_info import IPInfo
 from bilitool.feed.bili_video_list import BiliVideoList
+from bilitool.utils.check_format import CheckFormat
 
 def cli():
     logging.basicConfig(
@@ -64,6 +65,10 @@ def cli():
     list_parser.add_argument('--size', type=int, default=20, help='(default is 20) the size of video list')
     list_parser.add_argument('--status', default='pubed,not_pubed,is_pubing', help='(default is all) the status of video list: pubed, not_pubed, is_pubing')
 
+    # Convert subcommand
+    convert_parser = subparsers.add_parser('convert', help='Convert between avid and bvid')
+    convert_parser.add_argument('vid', help='The avid or bvid of the video')
+
     # IP subcommand
     ip_parser = subparsers.add_parser('ip', help='Get the ip info')
     ip_parser.add_argument('--ip', default='', help='(default is your request ip) The ip address')
@@ -112,6 +117,10 @@ def cli():
     if args.subcommand == 'list':
         bili = BiliVideoList()
         bili.print_video_list_info(bili.get_member_video_list(args.size, args.status))
+    
+    if args.subcommand == 'convert':
+        check_format = CheckFormat()
+        check_format.convert_bv_and_av(args.vid)
 
 if __name__ == '__main__':
     cli()
