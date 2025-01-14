@@ -1,4 +1,4 @@
-# Copyright (c) 2025 biliupload
+# Copyright (c) 2025 bilitool
 
 import http.client
 import urllib.parse

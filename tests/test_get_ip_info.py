@@ -1,7 +1,7 @@
-# Copyright (c) 2025 biliupload
+# Copyright (c) 2025 bilitool
 
 import unittest
-from biliupload.utils.get_ip_info import IPInfo
+from bilitool.utils.get_ip_info import IPInfo
 
 class TestIPInfo(unittest.TestCase):
     def test_get_ip_address(self):

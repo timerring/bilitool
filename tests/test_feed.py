@@ -1,7 +1,7 @@
-# Copyright (c) 2025 biliupload
+# Copyright (c) 2025 bilitool
 
 import unittest
-from biliupload.feed.bili_video_list import BiliVideoList
+from bilitool.feed.bili_video_list import BiliVideoList
 
 class TestBiliList(unittest.TestCase):
     def test_get_bili_video_list(self):

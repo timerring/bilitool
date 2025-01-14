@@ -1,4 +1,4 @@
-# Copyright (c) 2025 biliupload
+# Copyright (c) 2025 bilitool
 
 import re
 import sys
@@ -9,7 +9,7 @@ from json import dumps
 from pathlib import Path
 from time import sleep
 import requests
-from biliupload.utils.parse_cookies import parse_cookies
+from bilitool.utils.parse_cookies import parse_cookies
 
 # you can test your best cdn line https://member.bilibili.com/preupload?r=ping
 # cdn_lines = {

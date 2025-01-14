@@ -1,4 +1,4 @@
-# Copyright (c) 2025 biliupload
+# Copyright (c) 2025 bilitool
 
 import hashlib
 import subprocess
@@ -6,7 +6,7 @@ import time
 import json
 import qrcode
 from urllib.parse import urlencode
-from biliupload.ioer import ioer
+from bilitool.authenticate.ioer import ioer
 
 APP_KEY = "4409e2ce8ffd12b8"
 APP_SEC = "59b43e04ad6965f34319062b478f83dd"

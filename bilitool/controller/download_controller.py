@@ -1,7 +1,7 @@
-# Copyright (c) 2025 biliupload
+# Copyright (c) 2025 bilitool
 
-from biliupload.ioer import ioer
-from biliupload.download.bili_download import BiliDownloader
+from bilitool.authenticate.ioer import ioer
+from bilitool.download.bili_download import BiliDownloader
 import re
 
 

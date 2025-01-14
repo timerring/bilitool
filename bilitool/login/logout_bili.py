@@ -1,6 +1,8 @@
+# Copyright (c) 2025 bilitool
+
 import http.client
 import urllib.parse
-from biliupload.ioer import ioer
+from bilitool.authenticate.ioer import ioer
 import json
 
 
