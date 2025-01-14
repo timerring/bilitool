@@ -14,6 +14,7 @@ from biliupload.login.check_login import CheckLogin
 from biliupload.login.logout_bili import Logout
 from biliupload.controller.download_controller import DownloadController
 from biliupload.utils.get_ip_info import IPInfo
+from biliupload.feed.bili_video_list import BiliVideoList
 
 def cli():
     logging.basicConfig(
@@ -21,7 +22,7 @@ def cli():
         level=logging.INFO
     )
     parser = argparse.ArgumentParser(description='Python implementation of biliup')
-    parser.add_argument('-V', '--version', action='version', version='biliupload 0.0.3', help='Print version information')
+    parser.add_argument('-V', '--version', action='version', version='biliupload 0.0.4', help='Print version information')
 
     subparsers = parser.add_subparsers(dest='subcommand', help='Subcommands')
 
@@ -58,6 +59,12 @@ def cli():
     download_parser.add_argument('--chunksize', type=int, default=1024, help='(default is 1024) the chunk size of video')
     download_parser.add_argument('--multiple', action='store_true', help='(default is false) download the multiple videos if have set')
 
+    # List subcommand
+    list_parser = subparsers.add_parser('list', help='Get the uploaded video list')
+    list_parser.add_argument('--size', type=int, default=20, help='(default is 20) the size of video list')
+    list_parser.add_argument('--status', default='pubed,not_pubed,is_pubing', help='(default is all) the status of video list')
+
+    # IP subcommand
     ip_parser = subparsers.add_parser('ip', help='Get the ip info')
     ip_parser.add_argument('--ip', default='', help='(default is your request ip) The ip address')
 
@@ -101,6 +108,10 @@ def cli():
 
     if args.subcommand == 'ip':
         IPInfo.get_ip_address(args.ip)
+    
+    if args.subcommand == 'list':
+        bili = BiliVideoList()
+        bili.print_video_list_info(bili.get_member_video_list(args.size, args.status))
 
 if __name__ == '__main__':
     cli()
