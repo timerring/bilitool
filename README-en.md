@@ -2,7 +2,7 @@
 
 [简体中文](./README.md) | English
 
-> Welcome to use, feel free to provide feedback, and contribute to this project via PR.
+> Welcome to use, feel free to provide feedback, and contribute to this project via PR. Please do not use it for any purpose that violates the community rules.
 
 `bilitool` is a Python toolkit for logging in, downloading videos, uploading videos to Bilibili, and more. It can be operated via command-line CLI or used as a library in other projects.
 

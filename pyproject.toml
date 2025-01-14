@@ -8,7 +8,7 @@ version = "0.1.0"
 authors = [
   { name="timerring"},
 ]
-description = "Login and upload videos to bilibili"
+description = "The Python toolkit package and cli designed for interaction with Bilibili"
 readme = "README.md"
 license = { file="LICENSE" }
 requires-python = ">=3.10"
