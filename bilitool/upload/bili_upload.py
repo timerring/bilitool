@@ -7,8 +7,8 @@ import argparse
 from math import ceil
 from json import dumps
 from pathlib import Path
-from time import sleep
 import requests
+from tqdm import tqdm
 from bilitool.utils.parse_cookies import parse_cookies
 
 # you can test your best cdn line https://member.bilibili.com/preupload?r=ping
@@ -123,19 +123,21 @@ class BiliUploader(object):
             'total': filesize,
         }
         # Single thread upload
-        for chunknum in range(chunks):
-            start = fileio.tell()
-            batchbytes = fileio.read(chunk_size)
-            params['partNumber'] = chunknum + 1
-            params['chunk'] = chunknum
-            params['size'] = len(batchbytes)
-            params['start'] = start
-            params['end'] = fileio.tell()
-            res = self.session.put(url, params=params, data=batchbytes, headers={
-                                   'X-Upos-Auth': auth})
-            assert res.status_code == 200
-            self.logger.debug(f'Completed chunk{chunknum+1} uploading')
-            # print(res)
+        with tqdm(total=filesize, desc="Uploading video", unit="B", unit_scale=True) as pbar:
+            for chunknum in range(chunks):
+                start = fileio.tell()
+                batchbytes = fileio.read(chunk_size)
+                params['partNumber'] = chunknum + 1
+                params['chunk'] = chunknum
+                params['size'] = len(batchbytes)
+                params['start'] = start
+                params['end'] = fileio.tell()
+                res = self.session.put(url, params=params, data=batchbytes, headers={
+                                    'X-Upos-Auth': auth})
+                assert res.status_code == 200
+                self.logger.debug(f'Completed chunk{chunknum+1} uploading')
+                pbar.update(len(batchbytes))
+                # print(res)
 
     def finish_upload(self, *, upos_uri, auth, filename, upload_id, biz_id, chunks):
         """Notify the all chunks have been uploaded.
