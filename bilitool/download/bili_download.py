@@ -3,13 +3,8 @@
 import requests
 import time
 import sys
+from tqdm import tqdm
 from bilitool.authenticate.ioer import ioer
-
-def print_progress(progress, total):
-    width = 40
-    filled = int(progress / total * width)
-    empty = width - filled
-    return "■" * filled + " " * empty
 
 
 class BiliDownloader:
@@ -37,21 +32,12 @@ class BiliDownloader:
         if response.status_code == 200:
             with open(name, 'wb') as file:
                 content_length = int(response.headers['Content-Length'])
-                progress = 0
-                start_time = time.time()
+                progress_bar = tqdm(total=content_length, unit='B', unit_scale=True, desc=name)
                 for chunk in response.iter_content(chunk_size=self.config["download"]["chunksize"]):
                     file.write(chunk)
-                    progress += len(chunk)
-                    now_time = time.time()
-                    estimated_time = (content_length - progress) / \
-                        progress * (now_time - start_time)
-                    sys.stdout.write("\r[{}] {:.2f}% Already {:.0f}s and estimated {:.0f}s".format(
-                        print_progress(progress, content_length),
-                        progress / content_length * 100,
-                        now_time - start_time,
-                        estimated_time))
-                    sys.stdout.flush()
-                sys.stdout.write("\nDownload completed")
+                    progress_bar.update(len(chunk))
+                progress_bar.close()
+                print("\nDownload completed")
         else:
             print(name, "Download failed")
 
