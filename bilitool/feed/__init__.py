@@ -38,3 +38,21 @@ state_dict = {
     -50: "仅UP主可见",
     -100: "用户删除"
 }
+
+video_info_dict = {
+    'title': '标题',
+    'desc': '描述',
+    'duration': '时长',
+    'pubdate': '发布日期',
+    'owner_name': '作者名称',
+    'tname': '分区',
+    'copyright': '版权',
+    'width': '宽',
+    'height': '高',
+    'stat_view': '观看数',
+    'stat_danmaku': '弹幕数',
+    'stat_reply': '评论数',
+    'stat_coin': '硬币数',
+    'stat_share': '分享数',
+    'stat_like': '点赞数'
+}
