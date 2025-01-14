@@ -42,17 +42,20 @@ Alternatively, you can download the compiled CLI tool and run it directly [Downl
 Help information:
 
 ```
-usage: cli.py [-h] [-V] {login,logout,upload,check,download,ip} ...
+usage: bilitool [-h] [-V] {login,logout,upload,check,download,list,ip} ...
+
+The Python toolkit package and cli designed for interaction with Bilibili
 
 positional arguments:
-  {login,logout,upload,check,download,ip}
+  {login,logout,upload,check,download,list,ip}
                         Subcommands
     login               Login and save the cookie
     logout              Logout the current account
     upload              Upload the video
     check               Check if the user is logged in
     download            Download the video
-    ip                  Get the IP info
+    list                Get the uploaded video list
+    ip                  Get the ip info
 
 options:
   -h, --help            show this help message and exit
