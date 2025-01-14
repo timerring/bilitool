@@ -13,8 +13,7 @@ def print_progress(progress, total):
 class BiliDownloader:
     def __init__(self) -> None:
         self.config = ioer().get_config()
-        self.headers = ioer().get_headers_with_cookies()
-        self.headers["Referer"] = "https://www.bilibili.com"
+        self.headers = ioer().get_headers_with_cookies_and_refer()
 
     def get_cid(self,bvid):
         url="https://api.bilibili.com/x/player/pagelist?bvid="+bvid
