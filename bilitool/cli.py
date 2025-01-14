@@ -69,6 +69,10 @@ def cli():
     convert_parser = subparsers.add_parser('convert', help='Convert between avid and bvid')
     convert_parser.add_argument('vid', help='The avid or bvid of the video')
 
+    # Show subcommand
+    show_parser = subparsers.add_parser('show', help='Show the video detailed info')
+    show_parser.add_argument('vid', help='The avid or bvid of the video')
+
     # IP subcommand
     ip_parser = subparsers.add_parser('ip', help='Get the ip info')
     ip_parser.add_argument('--ip', default='', help='(default is your request ip) The ip address')
@@ -108,8 +112,7 @@ def cli():
         # print(args)
         download_metadata = DownloadController.package_download_metadata(args.danmaku, args.quality, args.chunksize, args.multiple)
         ioer().update_multiple_config(args.subcommand, download_metadata)
-        check_format = CheckFormat()
-        bvid = check_format.only_bvid(args.vid)
+        bvid = CheckFormat().only_bvid(args.vid)
         download_controller = DownloadController()
         download_controller.download_video(bvid)
 
@@ -121,8 +124,11 @@ def cli():
         bili.print_video_list_info(bili.get_member_video_list(args.size, args.status))
     
     if args.subcommand == 'convert':
-        check_format = CheckFormat()
-        check_format.convert_bv_and_av(args.vid)
+        CheckFormat().convert_bv_and_av(args.vid)
+
+    if args.subcommand == 'show':
+        bvid = CheckFormat().only_bvid(args.vid)
+        BiliVideoList().print_video_info_via_bvid(bvid)
 
 if __name__ == '__main__':
     cli()

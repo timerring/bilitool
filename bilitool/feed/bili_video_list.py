@@ -4,7 +4,7 @@ import time
 import requests
 from bilitool.authenticate.ioer import ioer
 from bilitool.authenticate.wbi_sign import WbiSign
-from bilitool.feed import VideoListInfo, state_dict
+from bilitool.feed import VideoListInfo, state_dict, video_info_dict
 
 
 class BiliVideoList(object):
@@ -73,3 +73,44 @@ class BiliVideoList(object):
         if resp.status_code != 200:
             raise Exception('HTTP ERROR')
         return resp.json()
+
+    @staticmethod
+    def extract_video_info(response_data):
+        data = response_data.get('data', {})
+        
+        video_info = {
+            # video info
+            'title': data.get('title'),
+            'desc': data.get('desc'),
+            'duration': data.get('duration'),
+            'pubdate': data.get('pubdate'),
+            'owner_name': data.get('owner', {}).get('name'),
+            'tname': data.get('tname'),
+            'copyright': data.get('copyright'),
+            'width': data.get('dimension', {}).get('width'),
+            'height': data.get('dimension', {}).get('height'),
+            # video status
+            'stat_view': data.get('stat', {}).get('view'),
+            'stat_danmaku': data.get('stat', {}).get('danmaku'),
+            'stat_reply': data.get('stat', {}).get('reply'),
+            'stat_coin': data.get('stat', {}).get('coin'),
+            'stat_share': data.get('stat', {}).get('share'),
+            'stat_like': data.get('stat', {}).get('like')
+        }
+        
+        return video_info
+    
+    @staticmethod
+    def print_video_info(video_info):
+        for key, value in video_info.items():
+            if key == 'duration':
+                    value = f"{value // 60}:{value % 60}"
+            elif key == 'pubdate':
+                value = time.strftime("%Y-%m-%d %H:%M:%S", time.gmtime(value))
+            elif key == 'copyright':
+                value = '原创' if value == 1 else '转载'
+            label = video_info_dict.get(key, key)
+            print(f"{label}: {value}")
+
+    def print_video_info_via_bvid(self, bvid: str):
+        BiliVideoList.print_video_info(BiliVideoList.extract_video_info(self.get_video_info(bvid)))
