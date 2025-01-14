@@ -54,7 +54,7 @@ def cli():
     # Download subcommand
     download_parser = subparsers.add_parser('download', help='Download the video')
 
-    download_parser.add_argument('bvid', help='(required) the bvid of video')
+    download_parser.add_argument('vid', help='(required) the bvid or avid of video')
     download_parser.add_argument('--danmaku', action='store_true', help='(default is false) download the danmaku of video')
     download_parser.add_argument('--quality', type=int, default=64, help='(default is 64) the resolution of video')
     download_parser.add_argument('--chunksize', type=int, default=1024, help='(default is 1024) the chunk size of video')
@@ -108,8 +108,10 @@ def cli():
         # print(args)
         download_metadata = DownloadController.package_download_metadata(args.danmaku, args.quality, args.chunksize, args.multiple)
         ioer().update_multiple_config(args.subcommand, download_metadata)
+        check_format = CheckFormat()
+        bvid = check_format.only_bvid(args.vid)
         download_controller = DownloadController()
-        download_controller.download_video(args.bvid)
+        download_controller.download_video(bvid)
 
     if args.subcommand == 'ip':
         IPInfo.get_ip_address(args.ip)
