@@ -10,10 +10,8 @@ import logging
 
 class UploadController:
     def __init__(self):
-        self.ioer = ioer()
         self.logger = logging.getLogger('bilitool')
-        self.config = self.ioer.get_config()
-        self.bili_uploader = BiliUploader(self.config, self.logger)
+        self.bili_uploader = BiliUploader(self.logger)
 
     @staticmethod
     def package_upload_metadata(line, copyright, tid, title, desc, tag, source, cover, dynamic):
@@ -34,7 +32,8 @@ class UploadController:
         file = Path(file)
         assert file.exists(), f'The file {file} does not exist'
         filename = file.name
-        title = self.config["upload"]["title"] or file.stem
+        title = ioer().get_config()["upload"]["title"] or file.stem
+        ioer().update_specific_config("upload", "title", title)
         filesize = file.stat().st_size
         self.logger.info(f'The {title} to be uploaded')
 
@@ -73,8 +72,10 @@ class UploadController:
 
         # publish video
         publish_video_response = self.bili_uploader.publish_video(bilibili_filename=bilibili_filename)
-        bvid = publish_video_response['data']['bvid']
-        # print(publish_video_response)
-        self.logger.info(f'[{title}]upload success!\tbvid:{bvid}')
+        if publish_video_response['code'] == 0:
+            bvid = publish_video_response['data']['bvid']
+            self.logger.info(f'[{title}]upload success!\tbvid:{bvid}')
+        else:
+            self.logger.error(publish_video_response['message'])
         # reset the video title
-        self.ioer.update_specific_config("upload", "title", "")
+        ioer().update_specific_config("upload", "title", "")

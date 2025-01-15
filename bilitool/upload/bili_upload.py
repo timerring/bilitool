@@ -10,6 +10,7 @@ from pathlib import Path
 import requests
 from tqdm import tqdm
 from bilitool.utils.parse_cookies import parse_cookies
+from bilitool.authenticate.ioer import ioer
 
 # you can test your best cdn line https://member.bilibili.com/preupload?r=ping
 # cdn_lines = {
@@ -18,9 +19,9 @@ from bilitool.utils.parse_cookies import parse_cookies
 # }
 
 class BiliUploader(object):
-    def __init__(self, config, logger):
+    def __init__(self, logger):
         self.logger = logger
-        self.config = config
+        self.config = ioer().get_config()
         self.session = requests.Session()
         self.session.headers = self.config["headers"]
         self.session.cookies = requests.utils.cookiejar_from_dict(self.config["cookies"])
@@ -175,24 +176,23 @@ class BiliUploader(object):
     # API docs: https://github.com/SocialSisterYi/bilibili-API-collect/blob/master/docs/creativecenter/upload.md
     def publish_video(self, bilibili_filename):
         """publish the uploaded video"""
-        url = f'https://member.bilibili.com/x/vu/web/add?csrf={self.config["cookies"]["bili_jct"]}'
-        data = {'copyright': self.config["upload"]["copyright"],
+        config = ioer().get_config()
+        url = f'https://member.bilibili.com/x/vu/web/add?csrf={config["cookies"]["bili_jct"]}'
+        data = {'copyright': config["upload"]["copyright"],
                 'videos': [{'filename': bilibili_filename,
-                            'title': self.config["upload"]["title"],
-                            'desc': self.config["upload"]["desc"]}],
-                'source': self.config["upload"]["source"],
-                'tid': self.config["upload"]["tid"],
-                'title': self.config["upload"]["title"],
-                'cover': self.config["upload"]["cover"],
-                'tag': self.config["upload"]["tag"],
+                            'title': config["upload"]["title"],
+                            'desc': config["upload"]["desc"]}],
+                'source': config["upload"]["source"],
+                'tid': config["upload"]["tid"],
+                'title': config["upload"]["title"],
+                'cover': config["upload"]["cover"],
+                'tag': config["upload"]["tag"],
                 'desc_format_id': 0,
-                'desc': self.config["upload"]["desc"],
-                'dynamic': self.config["upload"]["dynamic"],
+                'desc': config["upload"]["desc"],
+                'dynamic': config["upload"]["dynamic"],
                 'subtitle': {'open': 0, 'lan': ''}}
-        if self.config["upload"]["copyright"] != 2:
+        if config["upload"]["copyright"] != 2:
             del data['source']
-            # copyright: 1 original 2 reprint
-            data['copyright'] = 1
         res_json = self.session.post(url, json=data, headers={'TE': 'Trailers'}).json()
         # print(res_json)
         return res_json
