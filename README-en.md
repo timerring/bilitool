@@ -2,9 +2,9 @@
 
 [简体中文](./README.md) | English
 
-> Welcome to use, feel free to provide feedback, and contribute to this project via PR. Please do not use it for any purpose that violates the community rules.
+> Welcome to use, provide feedback, and contribute to this project via PR. Please do not use it for purposes that violate community guidelines.
 
-`bilitool` is a Python toolkit for logging in, downloading videos, uploading videos to Bilibili, and more. It can be operated via command-line CLI or used as a library in other projects.
+`bilitool` is a Python toolkit that provides functionalities such as persistent login, video download, and video upload to Bilibili. It can be operated via command-line interface (CLI) or used as a library in other projects.
 
 ## Features
 
@@ -13,19 +13,26 @@
 - `logout` Log out
 - `check` Check login status
 - `upload` Upload videos
-  - Supports various custom parameters for uploading
-  - Supports YAML configuration and parsing for video uploads
+  - Supports various custom parameters for upload
+  - Supports video upload via YAML configuration and parsing
+  - Displays upload progress bar
 - `download` Download videos
+  - Supports downloading by `bvid` and `avid`
   - Supports downloading danmaku (comments)
   - Supports downloading in various qualities
   - Supports downloading multi-part videos
+  - Displays download progress bar
 - `ip` Display request IP address
-  - Supports querying specified IP addresses
-- `list` Query the status of past video submissions
+  - Supports querying specified IP address
+- `list` Query the status of past uploaded videos of the account
+  - Supports querying videos with various statuses
   - If a video fails review, the reason will be displayed
-- Display published video information (planned support)
-- Display upload progress (in development)
-- Append videos to existing videos (in development)
+- `convert` Convert video IDs
+  - Supports conversion between `bvid` and `avid`
+- `show` Display detailed video information
+  - Supports viewing basic video information and interaction status data
+- Add more detailed log logs (planned support)
+- Append videos to existing videos (planned support)
 
 ## Usage
 
@@ -44,10 +51,10 @@ Help information:
 ```
 usage: bilitool [-h] [-V] {login,logout,upload,check,download,list,ip} ...
 
-The Python toolkit package and cli designed for interaction with Bilibili
+The Python toolkit package and CLI designed for interaction with Bilibili
 
 positional arguments:
-  {login,logout,upload,check,download,list,ip}
+  {login,logout,upload,check,download,list,show,convert,ip}
                         Subcommands
     login               Login and save the cookie
     logout              Logout the current account
@@ -55,7 +62,9 @@ positional arguments:
     check               Check if the user is logged in
     download            Download the video
     list                Get the uploaded video list
-    ip                  Get the ip info
+    show                Show the video detailed info
+    convert             Convert between avid and bvid
+    ip                  Get the IP info
 
 options:
   -h, --help            show this help message and exit
@@ -100,7 +109,7 @@ bilitool logout
 
 ### Upload
 
-> Note: The upload function requires login first. After logging in, the login status will be remembered, so you don't need to log in again for the next upload.
+> Note: The upload function requires login first. After logging in, the login status will be remembered, and you won't need to log in again for the next upload.
 
 `bilitool upload -h` prints help information:
 
@@ -144,7 +153,7 @@ bilitool upload /path/to/your/video.mp4 -y /path/to/your/upload/template.yaml
 
 ### Download
 
-> Note: To download videos in high quality or above, you need to log in first to obtain the download.
+> Note: To download videos in high definition or above, you need to log in first to obtain the download.
 
 `bilitool download -h` prints help information:
 
@@ -166,11 +175,11 @@ options:
 Example:
 
 ```bash
-# Download the video with bvid, download danmaku, set quality to 1080p HD, chunk size to 1024, and download all videos if there are multiple parts
+# Download the video with the bvid, download danmaku, set quality to 1080p HD, chunk size to 1024, and download all videos if there are multiple parts
 bilitool download bvid --danmaku --quality 80 --chunksize 1024 --multiple
 ```
 
-### Query Recent Video Submission Status
+### Query Recent Video Upload Status
 
 `bilitool list -h` prints help information:
 
@@ -186,10 +195,52 @@ options:
 Example:
 
 ```bash
-# By default, display the recent 20 video submissions
+# By default, display information of the 20 most recent uploaded videos
 bilitool list
-# Query the recent 10 video submissions that failed review
+# Query the 10 most recent videos that failed review
 bilitool list --size 10 --status not_pubed
+```
+
+### Query Detailed Video Information
+
+`bilitool show -h` prints help information:
+
+```
+usage: bilitool show [-h] bvid
+
+positional arguments:
+  vid         The avid or bvid of the video
+
+options:
+  -h, --help  show this help message and exit
+```
+
+Example:
+
+```bash
+# Query detailed video information
+bilitool show <bvid or avid>
+```
+
+### Convert Video ID
+
+`bilitool convert -h` prints help information:
+
+```
+usage: bilitool convert [-h] vid
+
+positional arguments:
+  vid         The avid or bvid of the video
+
+options:
+  -h, --help  show this help message and exit
+```
+
+Example:
+
+```bash
+# Convert video ID: input bvid to output avid, input avid to output bvid
+bilitool convert <bvid or avid>
 ```
 
 ### Query IP Address
@@ -215,4 +266,3 @@ bilitool ip --ip 8.8.8.8
 ## Acknowledgments
 
 - Thanks to [bilibili-API-collect](https://github.com/SocialSisterYi/bilibili-API-collect) for providing the API collection.
-- Thanks to [biliup-rs](https://github.com/biliup/biliup-rs) for providing direction.
