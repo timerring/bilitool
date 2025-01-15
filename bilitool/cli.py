@@ -121,7 +121,7 @@ def cli():
     
     if args.subcommand == 'list':
         bili = BiliVideoList()
-        bili.print_video_list_info(bili.get_member_video_list(args.size, args.status))
+        bili.print_video_list_info(bili.get_bili_video_list(args.size, args.status))
     
     if args.subcommand == 'convert':
         CheckFormat().convert_bv_and_av(args.vid)

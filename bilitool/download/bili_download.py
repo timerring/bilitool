@@ -8,7 +8,8 @@ from bilitool.authenticate.ioer import ioer
 
 
 class BiliDownloader:
-    def __init__(self) -> None:
+    def __init__(self, logger) -> None:
+        self.logger = logger
         self.config = ioer().get_config()
         self.headers = ioer().get_headers_with_cookies_and_refer()
 
@@ -26,7 +27,6 @@ class BiliDownloader:
         self.download_video(video_url, name)
 
     def download_video(self, url, name):
-        print("Begin download MP4")
         response = requests.get(
             url, headers=self.headers, stream=True)
         if response.status_code == 200:
@@ -37,16 +37,15 @@ class BiliDownloader:
                     file.write(chunk)
                     progress_bar.update(len(chunk))
                 progress_bar.close()
-                print("\nDownload completed")
+                self.logger.info(f'Download completed')
         else:
-            print(name, "Download failed")
+            self.logger.info(f'{name} Download failed')
 
     def download_danmaku(self, cid, name_raw="video"):
         if self.config["download"]["danmaku"]:
-            print("Begin download danmaku")
+            self.logger.info(f'Begin download danmaku')
             dm_url = "https://comment.bilibili.com/"+cid+".xml"
             response = requests.get(dm_url, headers=self.headers)
             with open(name_raw+'.xml', 'wb') as file:
                 file.write(response.content)
-            print("Successfully downloaded danmaku")
-    
+            self.logger.info(f'Successfully downloaded danmaku')
