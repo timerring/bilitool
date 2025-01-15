@@ -3,12 +3,14 @@
 from bilitool.authenticate.ioer import ioer
 from bilitool.download.bili_download import BiliDownloader
 import re
+import logging
 
 
 class DownloadController:
     def __init__(self):
+        self.logger = logging.getLogger('bilitool')
         self.ioer = ioer()
-        self.bili_downloader = BiliDownloader()
+        self.bili_downloader = BiliDownloader(self.logger)
         self.config = self.ioer.get_config()
 
     def extract_filename(self, filename):
@@ -34,12 +36,12 @@ class DownloadController:
             for i in range(0, len(cid_group)):
                 cid = str(cid_group[i]['cid'])
                 name = cid_group[i]['part']
-                print("Begin download", name)
+                self.logger.info(f'Begin download {name}')
                 self.download_biv_and_danmaku(bvid, cid, name)
         else:
             cid = str(cid_group[0]['cid'])
             name = cid_group[0]['part']
-            print("Begin download", name)
+            self.logger.info(f'Begin download {name}')
             self.download_biv_and_danmaku(bvid, cid, name)
 
     def download_biv_and_danmaku(self, bvid, cid, name_raw="video"):
