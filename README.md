@@ -29,8 +29,9 @@
   - 若视频审核未通过，同时会显示原因
 - `convert` 查询转换视频编号
   - 支持 `bvid` 和 `avid` 两种编号互转
-- 显示已发布的视频信息（预计支持）
-- 添加更详细的 log 信息（预计支持）
+- `show` 显示视频详细信息
+  - 支持查看视频基本信息以及互动状态数据
+- 添加更详细的 log 日志（预计支持）
 - 追加视频到已有的视频（预计支持）
 
 ## 使用方法
@@ -53,7 +54,7 @@ usage: bilitool [-h] [-V] {login,logout,upload,check,download,list,ip} ...
 The Python toolkit package and cli designed for interaction with Bilibili
 
 positional arguments:
-  {login,logout,upload,check,download,list,ip}
+  {login,logout,upload,check,download,list,show,convert,ip}
                         Subcommands
     login               Login and save the cookie
     logout              Logout the current account
@@ -61,6 +62,8 @@ positional arguments:
     check               Check if the user is logged in
     download            Download the video
     list                Get the uploaded video list
+    show                Show the video detailed info
+    convert             Convert between avid and bvid
     ip                  Get the ip info
 
 options:
@@ -198,6 +201,48 @@ bilitool list
 bilitool list --size 10 --status not_pubed
 ```
 
+### 查询视频详细信息
+
+`bilitool show -h ` 打印帮助信息：
+
+```bash
+usage: bilitool show [-h] bvid
+
+positional arguments:
+  vid         The avid or bvid of the video
+
+options:
+  -h, --help  show this help message and exit
+```
+
+示例：
+
+```bash
+# 查询视频详细信息
+bilitool show <bvid or avid>
+```
+
+### 查询转换视频编号
+
+`bilitool convert -h ` 打印帮助信息：
+
+```bash
+usage: bilitool convert [-h] vid
+
+positional arguments:
+  vid         The avid or bvid of the video
+
+options:
+  -h, --help  show this help message and exit
+```
+
+示例：
+
+```bash
+# 转换视频编号：输入 bvid 输出 avid，输入 avid 输出 bvid
+bilitool convert <bvid or avid>
+```
+
 ### 查询 IP 地址
 
 `bilitool ip -h ` 打印帮助信息：
@@ -221,4 +266,3 @@ bilitool ip --ip 8.8.8.8
 ## Acknowledgments
 
 - 感谢 [bilibili-API-collect](https://github.com/SocialSisterYi/bilibili-API-collect) 提供的 API 集合。
-- 感谢 [biliup-rs](https://github.com/biliup/biliup-rs) 提供的方向。

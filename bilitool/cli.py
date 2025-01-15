@@ -23,7 +23,7 @@ def cli():
         level=logging.INFO
     )
     parser = argparse.ArgumentParser(description='The Python toolkit package and cli designed for interaction with Bilibili')
-    parser.add_argument('-V', '--version', action='version', version='bilitool 0.1.0', help='Print version information')
+    parser.add_argument('-V', '--version', action='version', version='bilitool 0.1.1', help='Print version information')
 
     subparsers = parser.add_subparsers(dest='subcommand', help='Subcommands')
 
@@ -65,13 +65,13 @@ def cli():
     list_parser.add_argument('--size', type=int, default=20, help='(default is 20) the size of video list')
     list_parser.add_argument('--status', default='pubed,not_pubed,is_pubing', help='(default is all) the status of video list: pubed, not_pubed, is_pubing')
 
-    # Convert subcommand
-    convert_parser = subparsers.add_parser('convert', help='Convert between avid and bvid')
-    convert_parser.add_argument('vid', help='The avid or bvid of the video')
-
     # Show subcommand
     show_parser = subparsers.add_parser('show', help='Show the video detailed info')
     show_parser.add_argument('vid', help='The avid or bvid of the video')
+
+    # Convert subcommand
+    convert_parser = subparsers.add_parser('convert', help='Convert between avid and bvid')
+    convert_parser.add_argument('vid', help='The avid or bvid of the video')
 
     # IP subcommand
     ip_parser = subparsers.add_parser('ip', help='Get the ip info')
