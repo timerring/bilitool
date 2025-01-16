@@ -17,7 +17,7 @@ def cli():
         level=logging.INFO
     )
     parser = argparse.ArgumentParser(description='The Python toolkit package and cli designed for interaction with Bilibili')
-    parser.add_argument('-V', '--version', action='version', version='bilitool 0.1.1', help='Print version information')
+    parser.add_argument('-V', '--version', action='version', version='bilitool 0.1.2', help='Print version information')
 
     subparsers = parser.add_subparsers(dest='subcommand', help='Subcommands')
 
