@@ -30,3 +30,78 @@
 - 追加视频到已有的视频（预计支持）
 
 ## Architecture diagram
+
+项目仿照 MVC 架构进行设计：
+
+```mermaid
+graph TD
+    subgraph Model
+        M1[Model]
+    end
+
+    subgraph Database
+        DB1[JSON]
+    end
+
+    subgraph Controller
+        C1[DownloadController]
+        C2[UploadController]
+        C3[LoginController]
+        C4[FeedController]
+    end
+
+    subgraph View
+        V1[CLI]
+    end
+
+    subgraph Utility
+        U1[CheckFormat]
+        U2[IPInfo]
+    end
+
+    subgraph Download
+        D1[BiliDownloader]
+    end
+
+    subgraph Upload
+        U3[BiliUploader]
+    end
+
+    subgraph Feed
+        F1[BiliVideoList]
+    end
+
+    subgraph Login
+        L1[LoginBili]
+        L2[LogoutBili]
+        L3[CheckBiliLogin]
+    end
+
+    subgraph Authenticate
+        A1[WbiSign]
+    end
+
+    M1 --> DB1
+    DB1 --> M1
+
+    M1 <--> C1
+    M1 <--> C2
+    M1 <--> C4
+
+    C1 --> D1
+    C2 --> U3
+
+    V1 --> Utility
+
+    C3 --> L1
+    C3 --> L2
+    C3 --> L3
+
+    C4 --> F1
+
+    V1 --> C1
+    V1 --> C2
+    V1 --> C3
+    V1 --> A1 --> C4
+
+```

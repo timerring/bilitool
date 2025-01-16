@@ -1,7 +1,9 @@
 import { defineConfig } from 'vitepress'
+import { withMermaid } from 'vitepress-plugin-mermaid'
 
 // https://vitepress.dev/reference/site-config
-export default defineConfig({
+let config = defineConfig({
+  base: "/",
   title: "bilitool",
   description: "Official documentation",
   themeConfig: {
@@ -29,9 +31,25 @@ export default defineConfig({
         ]
       }
     ],
-
+    outline: {
+      level: [2, 4]
+    },
     socialLinks: [
       { icon: 'github', link: 'https://github.com/timerring/bilitool' }
     ]
-  }
+  },
+    // optionally, you can pass MermaidConfig
+    mermaid: {
+      // refer for options:
+      // https://mermaid.js.org/config/setup/modules/mermaidAPI.html#mermaidapi-configuration-defaults
+    },
+    // optionally set additional config for plugin itself with MermaidPluginConfig
+    mermaidPlugin: {
+      // set additional css class for mermaid container
+      class: "mermaid"
+    }
 })
+
+config = withMermaid(config) 
+
+export default config

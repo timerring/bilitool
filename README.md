@@ -6,6 +6,81 @@
 
 `bilitool` 是一个 python 的工具库，实现持久化登录，下载视频，上传视频到 bilibili 等功能，可以使用命令行 cli 操作，也可以作为其他项目的库使用。
 
+项目仿照 MVC 架构进行设计：
+
+```mermaid
+graph TD
+    subgraph Model
+        M1[Model]
+    end
+
+    subgraph Database
+        DB1[JSON]
+    end
+
+    subgraph Controller
+        C1[DownloadController]
+        C2[UploadController]
+        C3[LoginController]
+        C4[FeedController]
+    end
+
+    subgraph View
+        V1[CLI]
+    end
+
+    subgraph Utility
+        U1[CheckFormat]
+        U2[IPInfo]
+    end
+
+    subgraph Download
+        D1[BiliDownloader]
+    end
+
+    subgraph Upload
+        U3[BiliUploader]
+    end
+
+    subgraph Feed
+        F1[BiliVideoList]
+    end
+
+    subgraph Login
+        L1[LoginBili]
+        L2[LogoutBili]
+        L3[CheckBiliLogin]
+    end
+
+    subgraph Authenticate
+        A1[WbiSign]
+    end
+
+    M1 --> DB1
+    DB1 --> M1
+
+    M1 <--> C1
+    M1 <--> C2
+    M1 <--> C4
+
+    C1 --> D1
+    C2 --> U3
+
+    V1 --> Utility
+
+    C3 --> L1
+    C3 --> L2
+    C3 --> L3
+
+    C4 --> F1
+
+    V1 --> C1
+    V1 --> C2
+    V1 --> C3
+    V1 --> A1 --> C4
+
+```
+
 ## Major features
 
 - `bilitool login` 记忆存储登录状态
@@ -81,7 +156,41 @@ options:
 
 ### 接口调用方式
 
-正在更新，即将开放。
+> 更详细的函数及文档可以参考[项目文档](https://bilitool.timerring.com)。
+
+```python
+from bilitool.controller.login_controller import LoginController
+from bilitool.controller.upload_controller import UploadController
+from bilitool.controller.download_controller import DownloadController
+from bilitool.controller.feed_controller import FeedController
+from bilitool.utils.get_ip_info import IPInfo
+from bilitool.utils.check_format import CheckFormat
+
+# 登录
+LoginController().login_bilibili(export: bool)
+# 退出登录
+LoginController().logout_bilibili()
+# 检查登录
+LoginController().check_bilibili_login()
+
+# 上传
+UploadController().upload_video_entry(video_path: str, yaml: str, line: str, copyright: int, tid: int, title: str, desc: str, tag: str, source: str, cover: str, dynamic: str)
+
+# 下载
+DownloadController().download_video_entry(vid: str, danmaku: bool, quality: int, chunksize: int, multiple: bool)
+
+# 查询近期投稿列表
+FeedController().print_video_list_info(size: int, status: str)
+
+# 查询视频信息
+FeedController().print_video_info(vid: str)
+
+# 查询视频编号
+CheckFormat().convert_bv_and_av(vid: str)
+
+# 查询 IP 信息
+IPInfo.get_ip_address(ip: str)
+```
 
 ## Acknowledgments
 
