@@ -32,7 +32,7 @@ jobs:
           script-name: bilitool/cli.py
           mode: app
           include-data-files: |
-            ./bilitool/authenticate/config.json=./bilitool/authenticate/config.json
+            ./bilitool/model/config.json=./bilitool/model/config.json
 
       - name: Upload Artifacts
         uses: actions/upload-artifact@v4

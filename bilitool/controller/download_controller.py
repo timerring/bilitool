@@ -1,7 +1,8 @@
 # Copyright (c) 2025 bilitool
 
-from bilitool.authenticate.ioer import ioer
+from bilitool.model.model import Model
 from bilitool.download.bili_download import BiliDownloader
+from bilitool.utils.check_format import CheckFormat
 import re
 import logging
 
@@ -9,9 +10,9 @@ import logging
 class DownloadController:
     def __init__(self):
         self.logger = logging.getLogger('bilitool')
-        self.ioer = ioer()
+        self.model = Model()
         self.bili_downloader = BiliDownloader(self.logger)
-        self.config = self.ioer.get_config()
+        self.config = self.model.get_config()
 
     def extract_filename(self, filename):
         illegal_chars = r'[\\/:"*?<>|]'
@@ -51,3 +52,10 @@ class DownloadController:
 
     def download_danmaku(self, cid, name="video"):
         self.bili_downloader.download_danmaku(cid, name)
+
+    def download_video_entry(self, vid, danmaku, quality, chunksize, multiple):
+        download_metadata = self.package_download_metadata(danmaku, quality, chunksize, multiple)
+        Model().update_multiple_config('download', download_metadata)
+        bvid = CheckFormat().only_bvid(vid)
+        self.download_video(bvid)
+        

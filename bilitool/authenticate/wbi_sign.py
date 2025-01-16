@@ -5,13 +5,13 @@ from hashlib import md5
 import urllib.parse
 import time
 import requests
-from bilitool.authenticate.ioer import ioer
+from bilitool.model.model import Model
 
 # https://github.com/SocialSisterYi/bilibili-API-collect/blob/master/docs/misc/sign/wbi.md
 
 class WbiSign(object):
     def __init__(self):
-        self.config = ioer().get_config()
+        self.config = Model().get_config()
 
     mixinKeyEncTab = [
         46, 47, 18, 2, 53, 8, 23, 32, 15, 50, 10, 31, 58, 3, 45, 35, 27, 43, 5, 49,
@@ -22,7 +22,7 @@ class WbiSign(object):
 
     def get_wbi_keys(self) -> tuple[str, str]:
         """Get the refresh token"""
-        headers = ioer().get_headers_with_cookies_and_refer()
+        headers = Model().get_headers_with_cookies_and_refer()
         resp = requests.get('https://api.bilibili.com/x/web-interface/nav', headers=headers)
         resp.raise_for_status()
         json_content = resp.json()

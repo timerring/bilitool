@@ -2,15 +2,14 @@
 
 import time
 import requests
-from bilitool.authenticate.ioer import ioer
+from bilitool.model.model import Model
 from bilitool.authenticate.wbi_sign import WbiSign
 from bilitool.feed import VideoListInfo, state_dict, video_info_dict
 
 
 class BiliVideoList(object):
     def __init__(self):
-        self.cookies = ioer().get_config()['cookies']
-        self.headers = ioer().get_headers_with_cookies_and_refer()
+        self.headers = Model().get_headers_with_cookies_and_refer()
 
     @staticmethod
     def save_video_list_info(archive: dict):
@@ -26,13 +25,13 @@ class BiliVideoList(object):
         info['state_panel'] = archive.get('state_panel')
         return info
 
-    def get_bili_video_list(self, size: int = 20, target_type: str = 'pubed,not_pubed,is_pubing'):
+    def get_bili_video_list(self, size: int = 20, status_type: str = 'pubed,not_pubed,is_pubing'):
         """Query the video list
         
         :param size: page size
-        :param target_type: pubed,not_pubed,is_pubing
+        :param status_type: pubed,not_pubed,is_pubing
         """
-        url = f"https://member.bilibili.com/x/web/archives?status={target_type}&pn=1&ps={size}"
+        url = f"https://member.bilibili.com/x/web/archives?status={status_type}&pn=1&ps={size}"
         resp = requests.get(url=url, headers=self.headers)
         if resp.status_code != 200:
             raise Exception(f"HTTP ERROR code {resp.status_code}")
@@ -55,8 +54,8 @@ class BiliVideoList(object):
         }
         return data
 
-    @staticmethod
-    def print_video_list_info(video_data):
+    def print_video_list_info(self, size: int = 20, status_type: str = 'pubed,not_pubed,is_pubing'):
+        video_data = self.get_bili_video_list(size, status_type)
         for item in video_data['items']:
             info = f"{item['state_desc']} | {item['bvid']} | {item['title']}"
             extra_info = []
@@ -111,6 +110,3 @@ class BiliVideoList(object):
                 value = '原创' if value == 1 else '转载'
             label = video_info_dict.get(key, key)
             print(f"{label}: {value}")
-
-    def print_video_info_via_bvid(self, bvid: str):
-        BiliVideoList.print_video_info(BiliVideoList.extract_video_info(self.get_video_info(bvid)))
