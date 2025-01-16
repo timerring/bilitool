@@ -2,14 +2,14 @@
 
 import http.client
 import urllib.parse
-from bilitool.authenticate.ioer import ioer
+from bilitool.model.model import Model
 import json
 
 
 # The requests lib here was suspended by the official, so use http.client to make the request
-class Logout(object):
+class LogoutBili(object):
     def __init__(self):
-        self.config = ioer().get_config()
+        self.config = Model().get_config()
 
     def logout_bili(self):
         host = 'passport.bilibili.com'
@@ -32,7 +32,7 @@ class Logout(object):
         response_json = json.loads(response.read().decode('utf-8'))
         if response_json['code'] == 0:
             print("Logout successfully, the cookie has expired")
-            ioer().reset_cookies()
+            Model().reset_cookies()
         else:
             print("Logout failed, check the info:")
             print(response_json)

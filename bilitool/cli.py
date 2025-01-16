@@ -4,17 +4,11 @@ import argparse
 import sys
 import os
 import logging
-from bilitool.authenticate.ioer import ioer
-from bilitool.login.login_bili import login_bili
-from bilitool.utils.parse_cookies import parse_cookies
-from bilitool.upload.bili_upload import BiliUploader
-from bilitool.utils.parse_yaml import parse_yaml
+from bilitool.controller.login_controller import LoginController
 from bilitool.controller.upload_controller import UploadController
-from bilitool.login.check_login import CheckLogin
-from bilitool.login.logout_bili import Logout
 from bilitool.controller.download_controller import DownloadController
+from bilitool.controller.feed_controller import FeedController
 from bilitool.utils.get_ip_info import IPInfo
-from bilitool.feed.bili_video_list import BiliVideoList
 from bilitool.utils.check_format import CheckFormat
 
 def cli():
@@ -86,49 +80,34 @@ def cli():
         sys.exit()
 
     if args.subcommand == 'login':
-        login_bili(args.export)
+        LoginController().login_bilibili(args.export)
 
     if args.subcommand == 'logout':
-        Logout().logout_bili()
+        LoginController().logout_bilibili()
+
+    if args.subcommand == 'check':
+        LoginController().check_bilibili_login()
 
     if args.subcommand == 'upload':
         # print(args)
-        if args.yaml:
-            # * is used to unpack the tuple
-            upload_metadata = UploadController.package_upload_metadata(*parse_yaml(args.yaml))
-        else:
-            upload_metadata = UploadController.package_upload_metadata(
-                args.line, args.copyright, args.tid, args.title, 
-                args.desc, args.tag, args.source, args.cover, args.dynamic
-            )
-        ioer().update_multiple_config(args.subcommand, upload_metadata)
-        upload_controller = UploadController()
-        upload_controller.upload_and_publish_video(args.video_path)
-
-    if args.subcommand == 'check':
-        CheckLogin().check_bili_login()
+        UploadController().upload_video_entry(args.video_path, args.yaml, args.line, 
+        args.copyright, args.tid, args.title, args.desc, args.tag, args.source, args.cover, args.dynamic)
 
     if args.subcommand == 'download':
         # print(args)
-        download_metadata = DownloadController.package_download_metadata(args.danmaku, args.quality, args.chunksize, args.multiple)
-        ioer().update_multiple_config(args.subcommand, download_metadata)
-        bvid = CheckFormat().only_bvid(args.vid)
-        download_controller = DownloadController()
-        download_controller.download_video(bvid)
-
-    if args.subcommand == 'ip':
-        IPInfo.get_ip_address(args.ip)
+        DownloadController().download_video_entry(args.vid, args.danmaku, args.quality, args.chunksize, args.multiple)
     
     if args.subcommand == 'list':
-        bili = BiliVideoList()
-        bili.print_video_list_info(bili.get_bili_video_list(args.size, args.status))
+        FeedController().print_video_list_info(args.size, args.status)
     
+    if args.subcommand == 'show':
+        FeedController().print_video_info(args.vid)
+
     if args.subcommand == 'convert':
         CheckFormat().convert_bv_and_av(args.vid)
-
-    if args.subcommand == 'show':
-        bvid = CheckFormat().only_bvid(args.vid)
-        BiliVideoList().print_video_info_via_bvid(bvid)
+    
+    if args.subcommand == 'ip':
+        IPInfo.get_ip_address(args.ip)
 
 if __name__ == '__main__':
     cli()

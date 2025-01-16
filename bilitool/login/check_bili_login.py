@@ -1,12 +1,12 @@
 # Copyright (c) 2025 bilitool
 
-from bilitool.authenticate.ioer import ioer
+from bilitool.model.model import Model
 import requests
 import json
 
-class CheckLogin(object):
+class CheckBiliLogin(object):
     def __init__(self):
-        self.config = ioer().get_config()
+        self.config = Model().get_config()
 
     def check_bili_login(self):
         url = 'https://api.bilibili.com/x/web-interface/nav'

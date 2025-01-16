@@ -10,7 +10,7 @@ from pathlib import Path
 import requests
 from tqdm import tqdm
 from bilitool.utils.parse_cookies import parse_cookies
-from bilitool.authenticate.ioer import ioer
+from bilitool.model.model import Model
 
 # you can test your best cdn line https://member.bilibili.com/preupload?r=ping
 # cdn_lines = {
@@ -21,7 +21,7 @@ from bilitool.authenticate.ioer import ioer
 class BiliUploader(object):
     def __init__(self, logger):
         self.logger = logger
-        self.config = ioer().get_config()
+        self.config = Model().get_config()
         self.session = requests.Session()
         self.session.headers = self.config["headers"]
         self.session.cookies = requests.utils.cookiejar_from_dict(self.config["cookies"])
@@ -176,7 +176,7 @@ class BiliUploader(object):
     # API docs: https://github.com/SocialSisterYi/bilibili-API-collect/blob/master/docs/creativecenter/upload.md
     def publish_video(self, bilibili_filename):
         """publish the uploaded video"""
-        config = ioer().get_config()
+        config = Model().get_config()
         url = f'https://member.bilibili.com/x/vu/web/add?csrf={config["cookies"]["bili_jct"]}'
         data = {'copyright': config["upload"]["copyright"],
                 'videos': [{'filename': bilibili_filename,

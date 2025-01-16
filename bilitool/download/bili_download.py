@@ -4,14 +4,14 @@ import requests
 import time
 import sys
 from tqdm import tqdm
-from bilitool.authenticate.ioer import ioer
+from bilitool.model.model import Model
 
 
 class BiliDownloader:
     def __init__(self, logger) -> None:
         self.logger = logger
-        self.config = ioer().get_config()
-        self.headers = ioer().get_headers_with_cookies_and_refer()
+        self.config = Model().get_config()
+        self.headers = Model().get_headers_with_cookies_and_refer()
 
     def get_cid(self,bvid):
         url="https://api.bilibili.com/x/player/pagelist?bvid="+bvid

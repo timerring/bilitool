@@ -18,7 +18,7 @@ def add_headers_info(referer=None):
         return wrapper
     return decorator
 
-class ioer:
+class Model:
     def __init__(self, path=None) -> None:
         if path is None:
             self.path = os.path.join(os.path.dirname(__file__), "config.json")

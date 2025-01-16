@@ -1,11 +1,12 @@
 # Copyright (c) 2025 bilitool
 
-from bilitool.authenticate.ioer import ioer
+from bilitool.model.model import Model
 from bilitool.upload.bili_upload import BiliUploader
 from pathlib import Path
 import re
 from math import ceil
 import logging
+from bilitool.utils.parse_yaml import parse_yaml
 
 
 class UploadController:
@@ -32,8 +33,8 @@ class UploadController:
         file = Path(file)
         assert file.exists(), f'The file {file} does not exist'
         filename = file.name
-        title = ioer().get_config()["upload"]["title"] or file.stem
-        ioer().update_specific_config("upload", "title", title)
+        title = Model().get_config()["upload"]["title"] or file.stem
+        Model().update_specific_config("upload", "title", title)
         filesize = file.stat().st_size
         self.logger.info(f'The {title} to be uploaded')
 
@@ -78,4 +79,17 @@ class UploadController:
         else:
             self.logger.error(publish_video_response['message'])
         # reset the video title
-        ioer().update_specific_config("upload", "title", "")
+        Model().update_specific_config("upload", "title", "")
+
+    def upload_video_entry(self, video_path, yaml, line, copyright, tid, title, desc, tag, source, cover, dynamic):
+        if yaml:
+            # * is used to unpack the tuple
+            upload_metadata = self.package_upload_metadata(*parse_yaml(yaml))
+        else:
+            upload_metadata = self.package_upload_metadata(
+                line, copyright, tid, title, 
+                desc, tag, source, cover, dynamic
+            )
+        Model().update_multiple_config('upload', upload_metadata)
+        self.upload_and_publish_video(video_path)
+        
