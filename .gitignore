@@ -1,7 +1,5 @@
 # Recommend to use commitizen to commit
 node_modules/
-package-lock.json
-package.json
 __pycache__/
 cookie.json
 *.mp4
