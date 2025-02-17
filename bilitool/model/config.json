@@ -6,7 +6,8 @@
         "SESSDATA": "",
         "bili_jct": "",
         "DedeUserID": "",
-        "DedeUserID__ckMd5": ""
+        "DedeUserID__ckMd5": "",
+        "access_key": ""
     },
     "upload": {
         "line": "bda2",
