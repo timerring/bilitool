@@ -68,11 +68,12 @@ class LoginBili(object):
                         json.dump(body, f, ensure_ascii=False, indent=4)
                     print(f"cookie has been saved to {filename}")
 
+                access_key_value = body['data']['access_token']
                 sessdata_value = body['data']['cookie_info']['cookies'][0]['value']
                 bili_jct_value = body['data']['cookie_info']['cookies'][1]['value']
                 dede_user_id_value = body['data']['cookie_info']['cookies'][2]['value']
                 dede_user_id_ckmd5_value = body['data']['cookie_info']['cookies'][3]['value']
-                Model().save_cookies_info(sessdata_value, bili_jct_value, dede_user_id_value, dede_user_id_ckmd5_value)
+                Model().save_cookies_info(access_key_value, sessdata_value, bili_jct_value, dede_user_id_value, dede_user_id_ckmd5_value)
                 print("Login success!")
                 break
             else:
