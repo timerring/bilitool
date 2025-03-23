@@ -1,6 +1,13 @@
-# bilitool
+<div align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="assets/headerDark.svg" />
+    <img src="assets/headerLight.svg" alt="bilitool" />
+  </picture>
+  <p> </p>
 
 [简体中文](./README.md) | English
+
+</div>
 
 > Welcome to use, provide feedback, and contribute to this project via PRs. Please do not use it for purposes that violate community guidelines.
 
