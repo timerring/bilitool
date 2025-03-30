@@ -99,6 +99,7 @@ graph TD
   - 支持多种自定义参数上传
   - 支持上传视频的 yaml 配置与解析
   - 显示日志与上传进度
+- `bilitool append` 追加视频到已有的视频(分p投稿)
 - `bilitool download` 下载视频
   - 支持 `bvid` 和 `avid` 两种编号下载
   - 支持下载弹幕
@@ -114,7 +115,6 @@ graph TD
   - 支持查看视频基本信息以及互动状态数据
 - `bilitool ip` 显示请求 IP 地址
   - 支持查询指定 IP 地址
-- 追加视频到已有的视频（预计支持）
 
 > 以上命令添加 `-h` 或 `--help` 参数可以查看命令帮助信息。
 > 
@@ -144,11 +144,12 @@ usage: bilitool [-h] [-V] {login,logout,upload,check,download,list,ip} ...
 The Python toolkit package and cli designed for interaction with Bilibili
 
 positional arguments:
-  {login,logout,upload,check,download,list,show,convert,ip}
+  {login,logout,upload,append,check,download,list,show,convert,ip}
                         Subcommands
     login               Login and save the cookie
     logout              Logout the current account
     upload              Upload the video
+    append              Append the video
     check               Check if the user is logged in
     download            Download the video
     list                Get the uploaded video list

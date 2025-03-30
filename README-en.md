@@ -99,6 +99,7 @@ graph TD
   - Supports various custom parameters for uploading
   - Supports uploading videos with YAML configuration and parsing
   - Displays logs and upload progress
+- `bilitool append` appends videos to existing videos (multi-part)
 - `bilitool download` downloads videos
   - Supports downloading with `bvid` and `avid` identifiers
   - Supports downloading danmaku (comments)
@@ -141,14 +142,15 @@ Help information:
 ```
 usage: bilitool [-h] [-V] {login,logout,upload,check,download,list,ip} ...
 
-The Python toolkit package and CLI designed for interaction with Bilibili
+The Python toolkit package and cli designed for interaction with Bilibili
 
 positional arguments:
-  {login,logout,upload,check,download,list,show,convert,ip}
+  {login,logout,upload,append,check,download,list,show,convert,ip}
                         Subcommands
     login               Login and save the cookie
     logout              Logout the current account
     upload              Upload the video
+    append              Append the video
     check               Check if the user is logged in
     download            Download the video
     list                Get the uploaded video list

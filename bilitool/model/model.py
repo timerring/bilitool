@@ -32,7 +32,9 @@ class Model:
                 "SESSDATA": "",
                 "bili_jct": "",
                 "DedeUserID": "",
-                "DedeUserID__ckMd5": ""
+                "DedeUserID__ckMd5": "",
+                "access_key": "",
+                "sid": ""
             },
             "upload": {
                 "copyright": 2,
@@ -67,13 +69,14 @@ class Model:
     def get_headers_with_cookies_and_refer(self):
         return self.get_config()['headers']
 
-    def save_cookies_info(self, access_key, sessdata, bili_jct, dede_user_id, dede_user_id_ckmd5):
+    def save_cookies_info(self, access_key, sessdata, bili_jct, dede_user_id, dede_user_id_ckmd5, sid):
         config_info = self.get_config()
         config_info['cookies']['access_key'] = access_key
         config_info['cookies']['SESSDATA'] = sessdata
         config_info['cookies']['bili_jct'] = bili_jct
         config_info['cookies']['DedeUserID'] = dede_user_id
         config_info['cookies']['DedeUserID__ckMd5'] = dede_user_id_ckmd5
+        config_info['cookies']['sid'] = sid
         self.write(config_info)
 
     def update_specific_config(self, action, key, value):
@@ -94,6 +97,7 @@ class Model:
         config_info['cookies']['bili_jct'] = ""
         config_info['cookies']['DedeUserID'] = ""
         config_info['cookies']['DedeUserID__ckMd5'] = ""
+        config_info['cookies']['sid'] = ""
         self.write(config_info)
 
     def get_config(self):

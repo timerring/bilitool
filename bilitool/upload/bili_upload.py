@@ -5,12 +5,13 @@ import sys
 import logging
 import argparse
 from math import ceil
-from json import dumps
+import json
 from pathlib import Path
 import requests
 from tqdm import tqdm
 from bilitool.utils.parse_cookies import parse_cookies
 from bilitool.model.model import Model
+import hashlib
 
 # you can test your best cdn line https://member.bilibili.com/preupload?r=ping
 # cdn_lines = {
@@ -25,6 +26,7 @@ class BiliUploader(object):
         self.session = requests.Session()
         self.session.headers = self.config["headers"]
         self.session.cookies = requests.utils.cookiejar_from_dict(self.config["cookies"])
+        self.headers = Model().get_headers_with_cookies_and_refer()
 
     def preupload(self, *, filename, filesize):
         """The preupload process to get `upos_uri` and `auth` information.
@@ -177,7 +179,7 @@ class BiliUploader(object):
     def publish_video(self, bilibili_filename):
         """publish the uploaded video"""
         config = Model().get_config()
-        url = f'https://member.bilibili.com/x/vu/web/add?csrf={config["cookies"]["bili_jct"]}'
+        url = f'https://member.bilibili.com/x/vu/client/add?access_key={config["cookies"]["access_key"]}'
         data = {'copyright': config["upload"]["copyright"],
                 'videos': [{'filename': bilibili_filename,
                             'title': config["upload"]["title"],
@@ -195,4 +197,94 @@ class BiliUploader(object):
             del data['source']
         res_json = self.session.post(url, json=data, headers={'TE': 'Trailers'}).json()
         # print(res_json)
+        return res_json
+
+    def get_updated_video_info(self, bvid: str):
+        url = f"http://member.bilibili.com/x/client/archive/view"
+        params = {
+            "access_key": Model().get_config()['cookies']['access_key'],
+            "bvid": bvid
+        }
+        resp = requests.get(url=url, headers=self.headers, params=params)
+        return resp.json()["data"]
+    
+    def get_video_list_info(self, bvid: str):
+        raw_data = self.get_updated_video_info(bvid)
+        # print(raw_data)
+        videos = []
+        for video in raw_data['videos']:
+            videos.append({
+                'filename': video['filename'],
+                'title': video['title'],
+                'desc': video['desc']
+            })
+
+        data = {'bvid': bvid,
+                'build': 1054,
+                'copyright': raw_data["archive"]["copyright"],
+                'videos': videos,
+                'source': raw_data["archive"]["source"],
+                'tid': raw_data["archive"]["tid"],
+                'title': raw_data["archive"]["title"],
+                'cover': raw_data["archive"]["cover"],
+                'tag': raw_data["archive"]["tag"],
+                'no_reprint': raw_data["archive"]["no_reprint"],
+                'open_elec': raw_data["archive_elec"]["state"],
+                'desc': raw_data["archive"]["desc"]}
+        return data
+
+    @staticmethod
+    def sign_dict(data: dict, app_secret: str):
+        """sign a dictionary of request parameters
+        Parameters
+        ----------
+        - data: dictionary of request parameters.
+        - app_secret: a secret string coupled with app_key.
+
+        Returns
+        -------
+        - A hash string. len=32
+        """
+        data_str = []
+        keys = list(data.keys())
+        keys.sort()
+        for key in keys:
+            data_str.append("{}={}".format(key, data[key]))
+        data_str = "&".join(data_str)
+        data_str = data_str + app_secret
+        return hashlib.md5(data_str.encode("utf-8")).hexdigest()
+
+    def append_video(self, bilibili_filename, video_name, data):
+        """append the uploaded video"""
+        # Parse JSON string to dict if data is a string
+        video_to_be_appended = {
+            'filename': bilibili_filename,
+            'title': video_name,
+            'desc': "",
+        }
+        data['videos'].append(video_to_be_appended)
+        print(data)
+        print(type(data))
+        headers = {
+            'Connection': 'keep-alive',
+            'Content-Type': 'application/json',
+            'User-Agent': '',
+        }
+        params = {
+            'access_key': Model().get_config()['cookies']['access_key'],
+        }
+        APPSECRET = 'af125a0d5279fd576c1b4418a3e8276d'
+        params['sign'] = BiliUploader.sign_dict(params, APPSECRET)
+
+        res_json = requests.post(
+            url="http://member.bilibili.com/x/vu/client/edit",
+            params=params,
+            headers=headers,
+            verify=False,
+            cookies={
+                'sid': Model().get_config()['cookies']['sid']
+            },
+            json=data,
+            )
+        print(res_json.json())
         return res_json
