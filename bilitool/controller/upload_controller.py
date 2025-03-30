@@ -30,6 +30,7 @@ class UploadController:
 
     def upload_video(self, file):
         """upload and publish video on bilibili"""
+        upos_url, cdn, probe_version = self.bili_uploader.probe()
         file = Path(file)
         assert file.exists(), f'The file {file} does not exist'
         filename = file.name
@@ -40,7 +41,7 @@ class UploadController:
 
         # upload video
         self.logger.info('Start preuploading the video')
-        pre_upload_response = self.bili_uploader.preupload(filename=filename, filesize=filesize)
+        pre_upload_response = self.bili_uploader.preupload(filename=filename, filesize=filesize, cdn=cdn, probe_version=probe_version)
         upos_uri = pre_upload_response['upos_uri'].split('//')[-1]
         auth = pre_upload_response['auth']
         biz_id = pre_upload_response['biz_id']
@@ -48,7 +49,7 @@ class UploadController:
         chunks = ceil(filesize/chunk_size)
 
         self.logger.info('Start uploading the video')
-        upload_video_id_response = self.bili_uploader.get_upload_video_id(upos_uri=upos_uri, auth=auth)
+        upload_video_id_response = self.bili_uploader.get_upload_video_id(upos_uri=upos_uri, auth=auth, upos_url=upos_url)
         upload_id = upload_video_id_response['upload_id']
         key = upload_video_id_response['key']
 
@@ -63,13 +64,14 @@ class UploadController:
             fileio=fileio,
             filesize=filesize,
             chunk_size=chunk_size,
-            chunks=chunks
+            chunks=chunks,
+            upos_url=upos_url
         )
         fileio.close()
 
         # notify the all chunks have been uploaded
         self.bili_uploader.finish_upload(upos_uri=upos_uri, auth=auth, filename=filename,
-                           upload_id=upload_id, biz_id=biz_id, chunks=chunks)
+                           upload_id=upload_id, biz_id=biz_id, chunks=chunks, upos_url=upos_url)
         return bilibili_filename
 
     def publish_video(self, file):

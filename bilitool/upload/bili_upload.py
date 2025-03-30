@@ -12,12 +12,7 @@ from tqdm import tqdm
 from bilitool.utils.parse_cookies import parse_cookies
 from bilitool.model.model import Model
 import hashlib
-
-# you can test your best cdn line https://member.bilibili.com/preupload?r=ping
-# cdn_lines = {
-#     'qn': 'upos-sz-upcdnqn.bilivideo.com',
-#     'bda2': 'upos-sz-upcdnbda2.bilivideo.com',
-# }
+import time
 
 class BiliUploader(object):
     def __init__(self, logger):
@@ -28,7 +23,38 @@ class BiliUploader(object):
         self.session.cookies = requests.utils.cookiejar_from_dict(self.config["cookies"])
         self.headers = Model().get_headers_with_cookies_and_refer()
 
-    def preupload(self, *, filename, filesize):
+    def probe(self):
+        ret = requests.get('https://member.bilibili.com/preupload?r=probe', headers=self.headers, timeout=5).json()
+        print(f"线路:{ret['lines']}")
+        data, auto_os = None, None
+        min_cost = 0
+        if ret['probe'].get('get'):
+            method = 'get'
+        else:
+            method = 'post'
+            data = bytes(int(1024 * 0.1 * 1024))
+        for line in ret['lines']:
+            start = time.perf_counter()
+            test = requests.request(method, f"https:{line['probe_url']}", data=data, timeout=30)
+            cost = time.perf_counter() - start
+            print(line['query'], cost)
+            if test.status_code != 200:
+                return
+            if not min_cost or min_cost > cost:
+                auto_os = line
+                min_cost = cost
+        auto_os['cost'] = min_cost
+        self.logger.info(f"the best cdn line is:{auto_os}")
+        upos_url = auto_os['probe_url'].rstrip('OK')
+        self.logger.info(f"the upos_url is:{upos_url}")
+        query_params = dict(param.split('=') for param in auto_os['query'].split('&'))
+        cdn = query_params.get('upcdn')
+        self.logger.info(f"the cdn is:{cdn}")
+        probe_version = query_params.get('probe_version')
+        self.logger.info(f"the probe_version is:{probe_version}")
+        return upos_url, cdn, probe_version
+
+    def preupload(self, *, filename, filesize, cdn, probe_version):
         """The preupload process to get `upos_uri` and `auth` information.
         Parameters
         ----------
@@ -60,8 +86,8 @@ class BiliUploader(object):
             'ssl':	0,
             'version':	'2.8.9',
             'build': '2080900',
-            'upcdn': 'bda2',
-            'probe_version': '20200810'
+            'upcdn': cdn,
+            'probe_version': probe_version
         }
         res_json = self.session.get(
             url,
@@ -73,7 +99,7 @@ class BiliUploader(object):
         # print(res_json)
         return res_json
 
-    def get_upload_video_id(self, *, upos_uri, auth):
+    def get_upload_video_id(self, *, upos_uri, auth, upos_url):
         """Get the `upload_id` of video.
 
         Parameters
@@ -87,14 +113,14 @@ class BiliUploader(object):
         - upload_id: str
             the id of the video to be uploaded
         """
-        url = f'https://upos-sz-upcdnbda2.bilivideo.com/{upos_uri}?uploads&output=json'
+        url = f'https:{upos_url}{upos_uri}?uploads&output=json'
         res_json = self.session.post(url, headers={'X-Upos-Auth': auth}).json()
         assert res_json['OK'] == 1
         self.logger.info('Completed upload_id obtaining phase')
         # print(res_json)
         return res_json
 
-    def upload_video_in_chunks(self, *, upos_uri, auth, upload_id, fileio, filesize, chunk_size, chunks):
+    def upload_video_in_chunks(self, *, upos_uri, auth, upload_id, fileio, filesize, chunk_size, chunks, upos_url):
         """Upload the video in chunks.
 
         Parameters
@@ -114,7 +140,7 @@ class BiliUploader(object):
         - chunks: int
             the number of chunks to be uploaded
         """
-        url = f'https://upos-sz-upcdnbda2.bilivideo.com/{upos_uri}'
+        url = f'https:{upos_url}{upos_uri}'
         params = {
             'partNumber': None,  # start from 1
             'uploadId':	upload_id,
@@ -142,7 +168,7 @@ class BiliUploader(object):
                 pbar.update(len(batchbytes))
                 # print(res)
 
-    def finish_upload(self, *, upos_uri, auth, filename, upload_id, biz_id, chunks):
+    def finish_upload(self, *, upos_uri, auth, filename, upload_id, biz_id, chunks, upos_url):
         """Notify the all chunks have been uploaded.
 
         Parameters
@@ -160,7 +186,7 @@ class BiliUploader(object):
         - chunks: int
             the number of chunks to be uploaded
         """
-        url = f'https://upos-sz-upcdnbda2.bilivideo.com/{upos_uri}'
+        url = f'https:{upos_url}{upos_uri}'
         params = {
             'output':	'json',
             'name':	filename,
