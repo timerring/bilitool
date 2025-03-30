@@ -184,6 +184,9 @@ LoginController().check_bilibili_login()
 # 上传
 UploadController().upload_video_entry(video_path: str, yaml: str, line: str, copyright: int, tid: int, title: str, desc: str, tag: str, source: str, cover: str, dynamic: str)
 
+# 追加投稿（分p）
+UploadController().append_video_entry(video_path: str, bvid: str)
+
 # 下载
 DownloadController().download_video_entry(vid: str, danmaku: bool, quality: int, chunksize: int, multiple: bool)
 

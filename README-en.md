@@ -185,6 +185,9 @@ LoginController().check_bilibili_login()
 # Upload
 UploadController().upload_video_entry(video_path: str, yaml: str, line: str, copyright: int, tid: int, title: str, desc: str, tag: str, source: str, cover: str, dynamic: str)
 
+# Append
+UploadController().append_video_entry(video_path: str, bvid: str)
+
 # Download
 DownloadController().download_video_entry(vid: str, danmaku: bool, quality: int, chunksize: int, multiple: bool)
 
