@@ -99,6 +99,7 @@ graph TD
   - Supports various custom parameters for uploading
   - Supports uploading videos with YAML configuration and parsing
   - Displays logs and upload progress
+  - Supports **automatic speed test and selection of the best route**
 - `bilitool append` appends videos to existing videos (multi-part)
 - `bilitool download` downloads videos
   - Supports downloading with `bvid` and `avid` identifiers
