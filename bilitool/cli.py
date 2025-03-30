@@ -4,6 +4,7 @@ import argparse
 import sys
 import os
 import logging
+import textwrap
 from bilitool.controller.login_controller import LoginController
 from bilitool.controller.upload_controller import UploadController
 from bilitool.controller.download_controller import DownloadController
@@ -16,8 +17,21 @@ def cli():
         format='[%(levelname)s] - [%(asctime)s %(name)s] - %(message)s',
         level=logging.INFO
     )
-    parser = argparse.ArgumentParser(description='The Python toolkit package and cli designed for interaction with Bilibili')
-    parser.add_argument('-V', '--version', action='version', version='bilitool 0.1.2', help='Print version information')
+    parser = argparse.ArgumentParser(
+        prog="bilitool",
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        description=textwrap.dedent('''
+        The Python toolkit package and cli designed for interaction with Bilibili.
+        Source code at https://github.com/timerring/bilitool
+        '''),
+    )
+    parser.add_argument(
+        "-V",
+        "--version",
+        action="version",
+        version="bilitool 0.1.2 and source code at https://github.com/timerring/bilitool",
+        help="Print version information",
+    )
 
     subparsers = parser.add_subparsers(dest='subcommand', help='Subcommands')
 
