@@ -91,8 +91,12 @@ class UploadController:
         video_name = Path(video_path).name.strip(".mp4")
         video_data = self.bili_uploader.get_video_list_info(bvid)
         response = self.bili_uploader.append_video(bilibili_filename, video_name, video_data)
-        # print(response.status_code)
-        # print(response)
+        if response['code'] == 0:
+            self.logger.info(f'append {video_name} to {bvid} success!')
+        else:
+            self.logger.error(response['message'])
+        # reset the video title
+        Model().update_specific_config("upload", "title", "")
 
     def upload_video_entry(self, video_path, yaml, line, copyright, tid, title, desc, tag, source, cover, dynamic):
         if yaml:

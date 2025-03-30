@@ -24,8 +24,8 @@ class BiliUploader(object):
         self.headers = Model().get_headers_with_cookies_and_refer()
 
     def probe(self):
+        self.logger.info("begin to probe the best cdn line")
         ret = requests.get('https://member.bilibili.com/preupload?r=probe', headers=self.headers, timeout=5).json()
-        print(f"线路:{ret['lines']}")
         data, auto_os = None, None
         min_cost = 0
         if ret['probe'].get('get'):
