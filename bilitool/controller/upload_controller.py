@@ -28,7 +28,7 @@ class UploadController:
                 'dynamic': dynamic
             }
 
-    def upload_and_publish_video(self, file):
+    def upload_video(self, file):
         """upload and publish video on bilibili"""
         file = Path(file)
         assert file.exists(), f'The file {file} does not exist'
@@ -70,16 +70,27 @@ class UploadController:
         # notify the all chunks have been uploaded
         self.bili_uploader.finish_upload(upos_uri=upos_uri, auth=auth, filename=filename,
                            upload_id=upload_id, biz_id=biz_id, chunks=chunks)
+        return bilibili_filename
 
+    def publish_video(self, file):
+        bilibili_filename = self.upload_video(file)
         # publish video
         publish_video_response = self.bili_uploader.publish_video(bilibili_filename=bilibili_filename)
         if publish_video_response['code'] == 0:
             bvid = publish_video_response['data']['bvid']
-            self.logger.info(f'[{title}]upload success!\tbvid:{bvid}')
+            self.logger.info(f'upload success!\tbvid:{bvid}')
         else:
             self.logger.error(publish_video_response['message'])
         # reset the video title
         Model().update_specific_config("upload", "title", "")
+
+    def append_video_entry(self, video_path, bvid):
+        bilibili_filename = self.upload_video(video_path)
+        video_name = Path(video_path).name.strip(".mp4")
+        video_data = self.bili_uploader.get_video_list_info(bvid)
+        response = self.bili_uploader.append_video(bilibili_filename, video_name, video_data)
+        # print(response.status_code)
+        # print(response)
 
     def upload_video_entry(self, video_path, yaml, line, copyright, tid, title, desc, tag, source, cover, dynamic):
         if yaml:
@@ -91,5 +102,5 @@ class UploadController:
                 desc, tag, source, cover, dynamic
             )
         Model().update_multiple_config('upload', upload_metadata)
-        self.upload_and_publish_video(video_path)
+        self.publish_video(video_path)
         

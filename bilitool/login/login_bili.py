@@ -73,7 +73,8 @@ class LoginBili(object):
                 bili_jct_value = body['data']['cookie_info']['cookies'][1]['value']
                 dede_user_id_value = body['data']['cookie_info']['cookies'][2]['value']
                 dede_user_id_ckmd5_value = body['data']['cookie_info']['cookies'][3]['value']
-                Model().save_cookies_info(access_key_value, sessdata_value, bili_jct_value, dede_user_id_value, dede_user_id_ckmd5_value)
+                sid_value = body['data']['cookie_info']['cookies'][4]['value']
+                Model().save_cookies_info(access_key_value, sessdata_value, bili_jct_value, dede_user_id_value, dede_user_id_ckmd5_value, sid_value)
                 print("Login success!")
                 break
             else:

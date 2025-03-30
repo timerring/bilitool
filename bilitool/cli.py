@@ -42,6 +42,11 @@ def cli():
     upload_parser.add_argument('--cover', default='', help='(default is empty) The cover of video (if you want to customize, set it as the path to your cover image)')
     upload_parser.add_argument('--dynamic', default='', help='(default is empty) The dynamic information')
 
+    # Append subcommand
+    append_parser = subparsers.add_parser('append', help='Append the video')
+    append_parser.add_argument('-v','--vid', required=True, help='(required) The bvid or avid of appended video')
+    append_parser.add_argument('video_path', help='(required) The path to video file')
+
     # Check login subcommand
     check_login_parser = subparsers.add_parser('check', help='Check if the user is logged in')
 
@@ -92,6 +97,9 @@ def cli():
         # print(args)
         UploadController().upload_video_entry(args.video_path, args.yaml, args.line, 
         args.copyright, args.tid, args.title, args.desc, args.tag, args.source, args.cover, args.dynamic)
+
+    if args.subcommand == 'append':
+        UploadController().append_video_entry(args.video_path, args.vid)
 
     if args.subcommand == 'download':
         # print(args)
