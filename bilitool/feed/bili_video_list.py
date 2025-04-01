@@ -65,6 +65,13 @@ class BiliVideoList(object):
                 info += f" | {' | '.join(extra_info)}"
             print(info)
 
+    def get_video_dict_info(self, size: int = 20, status_type: str = 'pubed,not_pubed,is_pubing'):
+        video_data = self.get_bili_video_list(size, status_type)
+        data = dict()
+        for item in video_data['items']:
+            data[item['title']] = item['bvid']
+        return data
+
     def get_video_info(self, bvid: str) -> dict:
         """Get the video info of the bvid"""
         url = f"https://api.bilibili.com/x/web-interface/view?bvid={bvid}"

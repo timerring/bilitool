@@ -289,8 +289,6 @@ class BiliUploader(object):
             'desc': "",
         }
         data['videos'].append(video_to_be_appended)
-        print(data)
-        print(type(data))
         headers = {
             'Connection': 'keep-alive',
             'Content-Type': 'application/json',

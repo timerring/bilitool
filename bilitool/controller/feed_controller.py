@@ -16,3 +16,6 @@ class FeedController(object):
         video_info = self.bili_video_list.get_video_info(bvid)
         extracted_info = self.bili_video_list.extract_video_info(video_info)
         self.bili_video_list.print_video_info(extracted_info)
+
+    def get_video_dict_info(self, size: int = 20, status_type: str = 'pubed,not_pubed,is_pubing'):
+        return self.bili_video_list.get_video_dict_info(size, status_type)

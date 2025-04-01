@@ -80,20 +80,24 @@ class UploadController:
         if publish_video_response['code'] == 0:
             bvid = publish_video_response['data']['bvid']
             self.logger.info(f'upload success!\tbvid:{bvid}')
+            return True
         else:
             self.logger.error(publish_video_response['message'])
+            return False
         # reset the video title
         Model().reset_upload_config()
 
-    def append_video_entry(self, video_path, bvid):
+    def append_video_entry(self, video_path, bvid, video_name=None):
         bilibili_filename = self.upload_video(video_path)
-        video_name = Path(video_path).name.strip(".mp4")
+        video_name = video_name if video_name else Path(video_path).name.strip(".mp4")
         video_data = self.bili_uploader.get_video_list_info(bvid)
         response = self.bili_uploader.append_video(bilibili_filename, video_name, video_data)
         if response['code'] == 0:
             self.logger.info(f'append {video_name} to {bvid} success!')
+            return True
         else:
             self.logger.error(response['message'])
+            return False
         # reset the video title
         Model().reset_upload_config()
 
@@ -107,5 +111,5 @@ class UploadController:
                 desc, tag, source, cover, dynamic
             )
         Model().update_multiple_config('upload', upload_metadata)
-        self.publish_video(video_path)
+        return self.publish_video(video_path)
         
