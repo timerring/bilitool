@@ -6,6 +6,7 @@ import time
 import json
 from urllib.parse import urlencode
 from bilitool.model.model import Model
+from bilitool.login.check_bili_login import CheckBiliLogin
 
 
 class LoginBili(object):
@@ -79,3 +80,19 @@ class LoginBili(object):
                 break
             else:
                 time.sleep(3)
+
+    def get_cookie_file_login(self, filename):
+        with open(filename, 'r', encoding='utf-8') as f:
+            body = json.load(f)
+            access_key_value = body['data']['access_token']
+            sessdata_value = body['data']['cookie_info']['cookies'][0]['value']
+            bili_jct_value = body['data']['cookie_info']['cookies'][1]['value']
+            dede_user_id_value = body['data']['cookie_info']['cookies'][2]['value']
+            dede_user_id_ckmd5_value = body['data']['cookie_info']['cookies'][3]['value']
+            sid_value = body['data']['cookie_info']['cookies'][4]['value']
+            Model().save_cookies_info(access_key_value, sessdata_value, bili_jct_value, dede_user_id_value, dede_user_id_ckmd5_value, sid_value)
+            if CheckBiliLogin().check_bili_login():
+                print("Login success!", flush=True)
+            else:
+                print("Login failed, please check the cookie file again", flush=True)
+            

@@ -37,6 +37,7 @@ def cli():
 
     # Login subcommand
     login_parser = subparsers.add_parser('login', help='Login and save the cookie')
+    login_parser.add_argument('-f', '--file', default='', help='(default is empty) Login via cookie file')
     login_parser.add_argument('--export', action='store_true', help='(default is false) Export the login cookie file')
 
     # Logout subcommand
@@ -98,7 +99,10 @@ def cli():
         sys.exit()
 
     if args.subcommand == 'login':
-        LoginController().login_bilibili(args.export)
+        if args.file:
+            LoginController().login_bilibili_with_cookie_file(args.file)
+        else:
+            LoginController().login_bilibili(args.export)
 
     if args.subcommand == 'logout':
         LoginController().logout_bilibili()

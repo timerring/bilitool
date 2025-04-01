@@ -28,3 +28,6 @@ class LoginController(object):
 
     def check_bilibili_login(self):
         return self.check_bili_login.check_bili_login()
+
+    def login_bilibili_with_cookie_file(self, filename):
+        self.login_bili.get_cookie_file_login(filename)
