@@ -169,12 +169,7 @@ options:
 > For more detailed functions and documentation, refer to the [project documentation](https://bilitool.timerring.com).
 
 ```python
-from bilitool.controller.login_controller import LoginController
-from bilitool.controller.upload_controller import UploadController
-from bilitool.controller.download_controller import DownloadController
-from bilitool.controller.feed_controller import FeedController
-from bilitool.utils.get_ip_info import IPInfo
-from bilitool.utils.check_format import CheckFormat
+from bilitool import LoginController, UploadController, DownloadController, FeedController, IPInfo, CheckFormat
 
 # Login
 LoginController().login_bilibili(export: bool)

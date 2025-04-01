@@ -1,7 +1,7 @@
 # Copyright (c) 2025 bilitool
 
-from bilitool.feed.bili_video_list import BiliVideoList
-from bilitool.utils.check_format import CheckFormat
+from ..feed.bili_video_list import BiliVideoList
+from ..utils.check_format import CheckFormat
 
 class FeedController(object):
     def __init__(self):

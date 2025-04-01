@@ -4,7 +4,7 @@ import requests
 import time
 import sys
 from tqdm import tqdm
-from bilitool.model.model import Model
+from ..model.model import Model
 
 
 class BiliDownloader:

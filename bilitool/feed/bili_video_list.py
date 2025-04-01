@@ -2,9 +2,9 @@
 
 import time
 import requests
-from bilitool.model.model import Model
-from bilitool.authenticate.wbi_sign import WbiSign
-from bilitool.feed import VideoListInfo, state_dict, video_info_dict
+from ..model.model import Model
+from ..authenticate.wbi_sign import WbiSign
+from . import VideoListInfo, state_dict, video_info_dict
 
 
 class BiliVideoList(object):

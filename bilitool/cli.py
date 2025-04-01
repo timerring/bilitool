@@ -5,12 +5,7 @@ import sys
 import os
 import logging
 import textwrap
-from bilitool.controller.login_controller import LoginController
-from bilitool.controller.upload_controller import UploadController
-from bilitool.controller.download_controller import DownloadController
-from bilitool.controller.feed_controller import FeedController
-from bilitool.utils.get_ip_info import IPInfo
-from bilitool.utils.check_format import CheckFormat
+from bilitool import LoginController, UploadController, DownloadController, FeedController, IPInfo, CheckFormat
 
 def cli():
     logging.basicConfig(

@@ -1,6 +1,6 @@
 # Copyright (c) 2025 bilitool
 
-from bilitool.model.model import Model
+from ..model.model import Model
 import requests
 import json
 

@@ -1,10 +1,10 @@
 # Copyright (c) 2025 bilitool
 
-from bilitool.model.model import Model
+from ..model.model import Model
 import qrcode
-from bilitool.login.login_bili import LoginBili
-from bilitool.login.logout_bili import LogoutBili
-from bilitool.login.check_bili_login import CheckBiliLogin
+from ..login.login_bili import LoginBili
+from ..login.logout_bili import LogoutBili
+from ..login.check_bili_login import CheckBiliLogin
 
 
 class LoginController(object):

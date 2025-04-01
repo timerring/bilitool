@@ -5,7 +5,7 @@ from hashlib import md5
 import urllib.parse
 import time
 import requests
-from bilitool.model.model import Model
+from ..model.model import Model
 
 # https://github.com/SocialSisterYi/bilibili-API-collect/blob/master/docs/misc/sign/wbi.md
 
