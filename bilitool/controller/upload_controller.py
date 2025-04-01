@@ -83,7 +83,7 @@ class UploadController:
         else:
             self.logger.error(publish_video_response['message'])
         # reset the video title
-        Model().update_specific_config("upload", "title", "")
+        Model().reset_upload_config()
 
     def append_video_entry(self, video_path, bvid):
         bilibili_filename = self.upload_video(video_path)
@@ -95,7 +95,7 @@ class UploadController:
         else:
             self.logger.error(response['message'])
         # reset the video title
-        Model().update_specific_config("upload", "title", "")
+        Model().reset_upload_config()
 
     def upload_video_entry(self, video_path, yaml, copyright, tid, title, desc, tag, source, cover, dynamic):
         if yaml:
