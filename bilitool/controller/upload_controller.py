@@ -15,9 +15,8 @@ class UploadController:
         self.bili_uploader = BiliUploader(self.logger)
 
     @staticmethod
-    def package_upload_metadata(line, copyright, tid, title, desc, tag, source, cover, dynamic):
+    def package_upload_metadata(copyright, tid, title, desc, tag, source, cover, dynamic):
             return {
-                'line': line,
                 'copyright': copyright,
                 'tid': tid,
                 'title': title,
@@ -84,7 +83,7 @@ class UploadController:
         else:
             self.logger.error(publish_video_response['message'])
         # reset the video title
-        Model().update_specific_config("upload", "title", "")
+        Model().reset_upload_config()
 
     def append_video_entry(self, video_path, bvid):
         bilibili_filename = self.upload_video(video_path)
@@ -96,15 +95,15 @@ class UploadController:
         else:
             self.logger.error(response['message'])
         # reset the video title
-        Model().update_specific_config("upload", "title", "")
+        Model().reset_upload_config()
 
-    def upload_video_entry(self, video_path, yaml, line, copyright, tid, title, desc, tag, source, cover, dynamic):
+    def upload_video_entry(self, video_path, yaml, copyright, tid, title, desc, tag, source, cover, dynamic):
         if yaml:
             # * is used to unpack the tuple
             upload_metadata = self.package_upload_metadata(*parse_yaml(yaml))
         else:
             upload_metadata = self.package_upload_metadata(
-                line, copyright, tid, title, 
+                copyright, tid, title, 
                 desc, tag, source, cover, dynamic
             )
         Model().update_multiple_config('upload', upload_metadata)

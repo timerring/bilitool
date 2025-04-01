@@ -42,7 +42,6 @@ class Model:
                 "desc": "",
                 "tid": 138,
                 "tag": "bilitool",
-                "line": "bda2",
                 "source": "\u6765\u6e90\u4e8e\u4e92\u8054\u7f51",
                 "cover": "",
                 "dynamic": ""
@@ -88,6 +87,18 @@ class Model:
         config_info = self.get_config()
         for key, value in updates.items():
             config_info[action][key] = value
+        self.write(config_info)
+
+    def reset_upload_config(self):
+        config_info = self.get_config()
+        config_info['upload']['copyright'] = 2
+        config_info['upload']['title'] = ""
+        config_info['upload']['desc'] = ""
+        config_info['upload']['tid'] = 138
+        config_info['upload']['tag'] = "bilitool"
+        config_info['upload']['source'] = "\u6765\u6e90\u4e8e\u4e92\u8054\u7f51"
+        config_info['upload']['cover'] = ""
+        config_info['upload']['dynamic'] = ""
         self.write(config_info)
 
     def reset_cookies(self):

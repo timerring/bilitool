@@ -1,12 +1,8 @@
-line: bda2 # the cdn upload line(don't change this)
-limit: 5 # the limit of video upload threads
-streamers:
-  patterns-example: # the pattern matching(WIP, you can ignore this field and just leave it as this example)
-    copyright: 1 # the copyright of video (1 for original, 2 for reprint)
-    source: https://live.bilibili.com/xxxxxxxx # the source of video (required if your video is re-print)
-    title: "your video title"
-    desc: "your video description"
-    tid: 138 # the type id of video
-    tag: "your, video, tags" # the tags of video, separated by comma
-    cover: '' # the cover of video (if you want to customize, set it as the path to your cover image)
-    dynamic: '' # the dynamic information of video
+copyright: 1 # the copyright of video (1 for original, 2 for reprint)
+source: https://live.bilibili.com/xxxxxxxx # the source of video (required if your video is re-print)
+title: "your video title"
+desc: "your video description"
+tid: 138 # the type id of video
+tag: "your, video, tags" # the tags of video, separated by comma
+cover: '' # the cover of video (if you want to customize, set it as the path to your cover image)
+dynamic: '' # the dynamic information of video

@@ -5,7 +5,7 @@
 `bilitool upload -h ` 打印帮助信息：
 
 ```bash
-usage: bilitool upload [-h] [-y YAML] [--copyright COPYRIGHT] [--title TITLE] [--desc DESC] [--tid TID] [--tag TAG] [--line LINE] [--source SOURCE] [--cover COVER]
+usage: bilitool upload [-h] [-y YAML] [--copyright COPYRIGHT] [--title TITLE] [--desc DESC] [--tid TID] [--tag TAG] [--source SOURCE] [--cover COVER]
                          [--dynamic DYNAMIC]
                          video_path
 
@@ -21,7 +21,6 @@ options:
   --desc DESC           (default is empty) The description of video
   --tid TID             (default is 138) For more info to the type id, refer to https://biliup.github.io/tid-ref.html
   --tag TAG             (default is bilitool) video tags, separated by comma
-  --line LINE           (default is bda2) line refer to https://biliup.github.io/upload-systems-analysis.html
   --source SOURCE       (default is 来源于网络) The source of video (if your video is re-print)
   --cover COVER         (default is empty) The cover of video (if you want to customize, set it as the path to your cover image)
   --dynamic DYNAMIC     (default is empty) The dynamic information
@@ -36,7 +35,7 @@ options:
 bilitool upload /path/to/your/video.mp4
 
 # 使用命令行参数上传视频
-bilitool upload /path/to/your/video.mp4 --title "test" --desc "test" --tid 138 --tag "test" --line bda2
+bilitool upload /path/to/your/video.mp4 --title "test" --desc "test" --tid 138 --tag "test"
 
 # 使用 yaml 配置上传视频
 bilitool upload /path/to/your/video.mp4 -y /path/to/your/upload/template.yaml
