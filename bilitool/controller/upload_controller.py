@@ -91,7 +91,7 @@ class UploadController:
         bilibili_filename = self.upload_video(video_path)
         video_name = video_name if video_name else Path(video_path).name.strip(".mp4")
         video_data = self.bili_uploader.get_video_list_info(bvid)
-        response = self.bili_uploader.append_video(bilibili_filename, video_name, video_data)
+        response = self.bili_uploader.append_video(bilibili_filename, video_name, video_data).json()
         if response['code'] == 0:
             self.logger.info(f'append {video_name} to {bvid} success!')
             return True
