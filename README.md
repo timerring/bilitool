@@ -183,7 +183,7 @@ LoginController().logout_bilibili()
 LoginController().check_bilibili_login()
 
 # 上传
-UploadController().upload_video_entry(video_path: str, yaml: str, line: str, copyright: int, tid: int, title: str, desc: str, tag: str, source: str, cover: str, dynamic: str)
+UploadController().upload_video_entry(video_path: str, yaml: str, copyright: int, tid: int, title: str, desc: str, tag: str, source: str, cover: str, dynamic: str)
 
 # 追加投稿（分p）
 UploadController().append_video_entry(video_path: str, bvid: str)

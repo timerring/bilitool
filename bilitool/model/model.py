@@ -42,7 +42,6 @@ class Model:
                 "desc": "",
                 "tid": 138,
                 "tag": "bilitool",
-                "line": "bda2",
                 "source": "\u6765\u6e90\u4e8e\u4e92\u8054\u7f51",
                 "cover": "",
                 "dynamic": ""

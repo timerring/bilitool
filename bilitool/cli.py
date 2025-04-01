@@ -51,7 +51,6 @@ def cli():
     upload_parser.add_argument('--desc', default='', help='(default is empty) The description of video')
     upload_parser.add_argument('--tid', type=int, default=138, help='(default is 138) For more info to the type id, refer to https://biliup.github.io/tid-ref.html')
     upload_parser.add_argument('--tag', default='bilitool', help='(default is bilitool) Video tags, separated by comma')
-    upload_parser.add_argument('--line', default='bda2', help='(default is bda2) Line refer to https://biliup.github.io/upload-systems-analysis.html')
     upload_parser.add_argument('--source', default='来源于网络', help='(default is 来源于网络) The source of video (if your video is re-print)')
     upload_parser.add_argument('--cover', default='', help='(default is empty) The cover of video (if you want to customize, set it as the path to your cover image)')
     upload_parser.add_argument('--dynamic', default='', help='(default is empty) The dynamic information')
@@ -109,8 +108,8 @@ def cli():
 
     if args.subcommand == 'upload':
         # print(args)
-        UploadController().upload_video_entry(args.video_path, args.yaml, args.line, 
-        args.copyright, args.tid, args.title, args.desc, args.tag, args.source, args.cover, args.dynamic)
+        UploadController().upload_video_entry(args.video_path, args.yaml, args.copyright,
+        args.tid, args.title, args.desc, args.tag, args.source, args.cover, args.dynamic)
 
     if args.subcommand == 'append':
         UploadController().append_video_entry(args.video_path, args.vid)
