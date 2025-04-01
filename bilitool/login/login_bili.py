@@ -5,8 +5,8 @@ import subprocess
 import time
 import json
 from urllib.parse import urlencode
-from bilitool.model.model import Model
-from bilitool.login.check_bili_login import CheckBiliLogin
+from ..model.model import Model
+from .check_bili_login import CheckBiliLogin
 
 
 class LoginBili(object):

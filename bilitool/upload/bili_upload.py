@@ -9,8 +9,8 @@ import json
 from pathlib import Path
 import requests
 from tqdm import tqdm
-from bilitool.utils.parse_cookies import parse_cookies
-from bilitool.model.model import Model
+from ..utils.parse_cookies import parse_cookies
+from ..model.model import Model
 import hashlib
 import time
 

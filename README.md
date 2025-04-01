@@ -168,12 +168,7 @@ options:
 > 更详细的函数及文档可以参考[项目文档](https://bilitool.timerring.com)。
 
 ```python
-from bilitool.controller.login_controller import LoginController
-from bilitool.controller.upload_controller import UploadController
-from bilitool.controller.download_controller import DownloadController
-from bilitool.controller.feed_controller import FeedController
-from bilitool.utils.get_ip_info import IPInfo
-from bilitool.utils.check_format import CheckFormat
+from bilitool import LoginController, UploadController, DownloadController, FeedController, IPInfo, CheckFormat
 
 # 登录
 LoginController().login_bilibili(export: bool)

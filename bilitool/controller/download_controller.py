@@ -1,8 +1,8 @@
 # Copyright (c) 2025 bilitool
 
-from bilitool.model.model import Model
-from bilitool.download.bili_download import BiliDownloader
-from bilitool.utils.check_format import CheckFormat
+from ..model.model import Model
+from ..download.bili_download import BiliDownloader
+from ..utils.check_format import CheckFormat
 import re
 import logging
 

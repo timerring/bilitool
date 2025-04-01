@@ -1,12 +1,12 @@
 # Copyright (c) 2025 bilitool
 
-from bilitool.model.model import Model
-from bilitool.upload.bili_upload import BiliUploader
+from ..model.model import Model
+from ..upload.bili_upload import BiliUploader
 from pathlib import Path
 import re
 from math import ceil
 import logging
-from bilitool.utils.parse_yaml import parse_yaml
+from ..utils.parse_yaml import parse_yaml
 
 
 class UploadController:

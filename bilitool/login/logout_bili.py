@@ -2,7 +2,7 @@
 
 import http.client
 import urllib.parse
-from bilitool.model.model import Model
+from ..model.model import Model
 import json
 
 
