@@ -27,9 +27,25 @@ class UploadController:
                 'dynamic': dynamic
             }
 
-    def upload_video(self, file):
+    def upload_video(self, file, cdn=None):
         """upload and publish video on bilibili"""
-        upos_url, cdn, probe_version = self.bili_uploader.probe()
+        if cdn == "qn":
+            upos_url = "//upos-cs-upcdnqn.bilivideo.com/"
+            probe_version = "20221109"
+        elif cdn == "bldsa":
+            upos_url = "//upos-cs-upcdnbldsa.bilivideo.com/"
+            probe_version = "20221109"
+        elif cdn == "ws":
+            upos_url = "//upos-sz-upcdnws.bilivideo.com/"
+            probe_version = "20221109"
+        elif cdn == "bda2":
+            upos_url = "//upos-cs-upcdnbda2.bilivideo.com/"
+            probe_version = "20221109"
+        elif cdn == "tx":
+            upos_url = "//upos-cs-upcdntx.bilivideo.com/"
+            probe_version = "20221109"
+        else:
+            upos_url, cdn, probe_version = self.bili_uploader.probe()
         file = Path(file)
         assert file.exists(), f'The file {file} does not exist'
         filename = file.name
@@ -73,8 +89,8 @@ class UploadController:
                            upload_id=upload_id, biz_id=biz_id, chunks=chunks, upos_url=upos_url)
         return bilibili_filename
 
-    def publish_video(self, file):
-        bilibili_filename = self.upload_video(file)
+    def publish_video(self, file, cdn=None):
+        bilibili_filename = self.upload_video(file, cdn)
         # publish video
         publish_video_response = self.bili_uploader.publish_video(bilibili_filename=bilibili_filename)
         if publish_video_response['code'] == 0:
@@ -87,8 +103,8 @@ class UploadController:
         # reset the video title
         Model().reset_upload_config()
 
-    def append_video_entry(self, video_path, bvid, video_name=None):
-        bilibili_filename = self.upload_video(video_path)
+    def append_video_entry(self, video_path, bvid, cdn=None, video_name=None):
+        bilibili_filename = self.upload_video(video_path, cdn)
         video_name = video_name if video_name else Path(video_path).name.strip(".mp4")
         video_data = self.bili_uploader.get_video_list_info(bvid)
         response = self.bili_uploader.append_video(bilibili_filename, video_name, video_data).json()
@@ -101,7 +117,7 @@ class UploadController:
         # reset the video title
         Model().reset_upload_config()
 
-    def upload_video_entry(self, video_path, yaml, copyright, tid, title, desc, tag, source, cover, dynamic):
+    def upload_video_entry(self, video_path, yaml, copyright, tid, title, desc, tag, source, cover, dynamic, cdn=None):
         if yaml:
             # * is used to unpack the tuple
             upload_metadata = self.package_upload_metadata(*parse_yaml(yaml))
@@ -111,5 +127,5 @@ class UploadController:
                 desc, tag, source, cover, dynamic
             )
         Model().update_multiple_config('upload', upload_metadata)
-        return self.publish_video(video_path)
+        return self.publish_video(video_path, cdn)
         
