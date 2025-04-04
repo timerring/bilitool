@@ -50,11 +50,13 @@ def cli():
     upload_parser.add_argument('--source', default='来源于网络', help='(default is 来源于网络) The source of video (if your video is re-print)')
     upload_parser.add_argument('--cover', default='', help='(default is empty) The cover of video (if you want to customize, set it as the path to your cover image)')
     upload_parser.add_argument('--dynamic', default='', help='(default is empty) The dynamic information')
+    upload_parser.add_argument('--cdn', default='', help='(default is auto detect) The cdn line')
 
     # Append subcommand
     append_parser = subparsers.add_parser('append', help='Append the video')
     append_parser.add_argument('-v','--vid', required=True, help='(required) The bvid or avid of appended video')
     append_parser.add_argument('video_path', help='(required) The path to video file')
+    append_parser.add_argument('--cdn', default='', help='(default is auto detect) The cdn line')
 
     # Check login subcommand
     check_login_parser = subparsers.add_parser('check', help='Check if the user is logged in')
@@ -108,10 +110,10 @@ def cli():
     if args.subcommand == 'upload':
         # print(args)
         UploadController().upload_video_entry(args.video_path, args.yaml, args.copyright,
-        args.tid, args.title, args.desc, args.tag, args.source, args.cover, args.dynamic)
+        args.tid, args.title, args.desc, args.tag, args.source, args.cover, args.dynamic, args.cdn)
 
     if args.subcommand == 'append':
-        UploadController().append_video_entry(args.video_path, args.vid)
+        UploadController().append_video_entry(args.video_path, args.vid, args.cdn)
 
     if args.subcommand == 'download':
         # print(args)

@@ -99,7 +99,8 @@ graph TD
   - Supports various custom parameters for uploading
   - Supports uploading videos with YAML configuration and parsing
   - Displays logs and upload progress
-  - Supports **automatic speed test and selection of the best route**
+  - Supports **automatic speed test and selection of the best route** (default)
+  - Supports specifying upload lines (`qn`, `bldsa`, `ws`, `bda2`, `tx`)
 - `bilitool append` appends videos to existing videos (multi-part)
 - `bilitool download` downloads videos
   - Supports downloading with `bvid` and `avid` identifiers
@@ -179,10 +180,10 @@ LoginController().logout_bilibili()
 LoginController().check_bilibili_login()
 
 # Upload
-UploadController().upload_video_entry(video_path: str, yaml: str, line: str, copyright: int, tid: int, title: str, desc: str, tag: str, source: str, cover: str, dynamic: str)
+UploadController().upload_video_entry(video_path: str, yaml: str, line: str, copyright: int, tid: int, title: str, desc: str, tag: str, source: str, cover: str, dynamic: str, cdn: str)
 
 # Append
-UploadController().append_video_entry(video_path: str, bvid: str)
+UploadController().append_video_entry(video_path: str, bvid: str, cdn: str)
 
 # Download
 DownloadController().download_video_entry(vid: str, danmaku: bool, quality: int, chunksize: int, multiple: bool)

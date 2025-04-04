@@ -99,7 +99,8 @@ graph TD
   - 支持多种自定义参数上传
   - 支持上传视频的 yaml 配置与解析
   - 显示日志与上传进度
-  - 支持**自动测速并且选择最佳线路**
+  - 支持**自动测速并且选择最佳线路**(默认)
+  - 支持指定上传线路(`qn`, `bldsa`, `ws`, `bda2`, `tx`)
 - `bilitool append` 追加视频到已有的视频(**分p投稿**)
 - `bilitool download` 下载视频
   - 支持 `bvid` 和 `avid` 两种编号下载
@@ -178,10 +179,10 @@ LoginController().logout_bilibili()
 LoginController().check_bilibili_login()
 
 # 上传
-UploadController().upload_video_entry(video_path: str, yaml: str, copyright: int, tid: int, title: str, desc: str, tag: str, source: str, cover: str, dynamic: str)
+UploadController().upload_video_entry(video_path: str, yaml: str, copyright: int, tid: int, title: str, desc: str, tag: str, source: str, cover: str, dynamic: str, cdn: str)
 
 # 追加投稿（分p）
-UploadController().append_video_entry(video_path: str, bvid: str)
+UploadController().append_video_entry(video_path: str, bvid: str, cdn: str)
 
 # 下载
 DownloadController().download_video_entry(vid: str, danmaku: bool, quality: int, chunksize: int, multiple: bool)
