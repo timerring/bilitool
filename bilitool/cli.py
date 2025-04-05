@@ -79,7 +79,7 @@ def cli():
         "--tid",
         type=int,
         default=138,
-        help="(default is 138) For more info to the type id, refer to https://biliup.github.io/tid-ref.html",
+        help="(default is 138) For more info to the type id, refer to https://bilitool.timerring.com/tid.html",
     )
     upload_parser.add_argument(
         "--tag",
