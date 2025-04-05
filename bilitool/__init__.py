@@ -5,4 +5,11 @@ from .controller.feed_controller import FeedController
 from .utils.get_ip_info import IPInfo
 from .utils.check_format import CheckFormat
 
-__all__ = ['LoginController', 'UploadController', 'DownloadController', 'FeedController', 'IPInfo', 'CheckFormat']
+__all__ = [
+    "LoginController",
+    "UploadController",
+    "DownloadController",
+    "FeedController",
+    "IPInfo",
+    "CheckFormat",
+]

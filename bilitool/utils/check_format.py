@@ -1,5 +1,6 @@
 # Copyright (c) 2025 bilitool
 
+
 class CheckFormat(object):
     def __init__(self):
         self.XOR_CODE = 23442827791579
@@ -18,14 +19,14 @@ class CheckFormat(object):
     def is_bvid(bvid: str) -> bool:
         if len(bvid) != 12:
             return False
-        if bvid[0:2] != 'BV':
+        if bvid[0:2] != "BV":
             return False
         return True
 
     @staticmethod
     def is_chinese(word: str) -> bool:
         for ch in word:
-            if '\u4e00' <= ch <= '\u9fff':
+            if "\u4e00" <= ch <= "\u9fff":
                 return True
         return False
 
@@ -48,7 +49,7 @@ class CheckFormat(object):
             idx = self.ALPHABET.index(bvid[self.DECODE_MAP[i]])
             tmp = tmp * self.BASE + idx
         return (tmp & self.MASK_CODE) ^ self.XOR_CODE
-    
+
     def convert_bv_and_av(self, vid: str):
         if self.is_bvid(str(vid)):
             print("The avid of the video is: ", self.bv2av(str(vid)))
