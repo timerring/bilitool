@@ -4,24 +4,25 @@ build-backend = "hatchling.build"
 
 [project]
 name = "bilitool" # make sure your module name is unique
-version = "0.1.2"
+version = "0.1.3"
 authors = [
   { name="timerring"},
 ]
 description = "The Python toolkit package and cli designed for interaction with Bilibili"
 readme = "README.md"
 license = { file="LICENSE" }
-requires-python = ">=3.10"
+requires-python = ">=3.9"
 classifiers = [
     "Programming Language :: Python :: 3",
     "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
 ]
 dependencies = [
-  "PyYAML==6.0.2",
-  "qrcode==8.0",
-  "Requests==2.32.3",
-  "tqdm==4.67.1"
+  "PyYAML>=6.0.2",
+  "qrcode>=8.0",
+  "Requests>=2.32.3",
+  "tqdm>=4.67.1",
+  "Pillow>=5.2.0"
 ]
 
 [project.scripts]

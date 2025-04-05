@@ -34,7 +34,7 @@ def cli():
         "-V",
         "--version",
         action="version",
-        version="bilitool 0.1.2 and source code at https://github.com/timerring/bilitool",
+        version="bilitool 0.1.3 and source code at https://github.com/timerring/bilitool",
         help="Print version information",
     )
 
