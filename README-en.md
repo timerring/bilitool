@@ -101,6 +101,7 @@ graph TD
   - Displays logs and upload progress
   - Supports **automatic speed test and selection of the best route** (default)
   - Supports specifying upload lines (`qn`, `bldsa`, `ws`, `bda2`, `tx`)
+  - Supports uploading cover image
 - `bilitool append` appends videos to existing videos (multi-part)
 - `bilitool download` downloads videos
   - Supports downloading with `bvid` and `avid` identifiers

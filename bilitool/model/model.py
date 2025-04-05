@@ -9,14 +9,19 @@ def add_headers_info(referer=None):
         def wrapper(self, *args, **kwargs):
             headers = func(self, *args, **kwargs)
             config_info = self.get_config()
-            cookies = config_info['cookies']
-            cookie_string = "; ".join([f"{key}={value}" for key, value in cookies.items() if value])
-            headers['Cookie'] = cookie_string
+            cookies = config_info["cookies"]
+            cookie_string = "; ".join(
+                [f"{key}={value}" for key, value in cookies.items() if value]
+            )
+            headers["Cookie"] = cookie_string
             if referer:
-                headers['Referer'] = referer
+                headers["Referer"] = referer
             return headers
+
         return wrapper
+
     return decorator
+
 
 class Model:
     def __init__(self, path=None) -> None:
@@ -34,7 +39,7 @@ class Model:
                 "DedeUserID": "",
                 "DedeUserID__ckMd5": "",
                 "access_key": "",
-                "sid": ""
+                "sid": "",
             },
             "upload": {
                 "copyright": 2,
@@ -44,14 +49,14 @@ class Model:
                 "tag": "bilitool",
                 "source": "\u6765\u6e90\u4e8e\u4e92\u8054\u7f51",
                 "cover": "",
-                "dynamic": ""
+                "dynamic": "",
             },
             "download": {
                 "danmaku": 1,
                 "quality": 64,
                 "chunksize": 1024,
-                "multiple": False
-            }
+                "multiple": False,
+            },
         }
 
     def get_default_config(self):
@@ -62,20 +67,22 @@ class Model:
 
     @add_headers_info()
     def get_headers_with_cookies(self):
-        return self.get_config()['headers']
+        return self.get_config()["headers"]
 
-    @add_headers_info(referer='https://www.bilibili.com/')
+    @add_headers_info(referer="https://www.bilibili.com/")
     def get_headers_with_cookies_and_refer(self):
-        return self.get_config()['headers']
+        return self.get_config()["headers"]
 
-    def save_cookies_info(self, access_key, sessdata, bili_jct, dede_user_id, dede_user_id_ckmd5, sid):
+    def save_cookies_info(
+        self, access_key, sessdata, bili_jct, dede_user_id, dede_user_id_ckmd5, sid
+    ):
         config_info = self.get_config()
-        config_info['cookies']['access_key'] = access_key
-        config_info['cookies']['SESSDATA'] = sessdata
-        config_info['cookies']['bili_jct'] = bili_jct
-        config_info['cookies']['DedeUserID'] = dede_user_id
-        config_info['cookies']['DedeUserID__ckMd5'] = dede_user_id_ckmd5
-        config_info['cookies']['sid'] = sid
+        config_info["cookies"]["access_key"] = access_key
+        config_info["cookies"]["SESSDATA"] = sessdata
+        config_info["cookies"]["bili_jct"] = bili_jct
+        config_info["cookies"]["DedeUserID"] = dede_user_id
+        config_info["cookies"]["DedeUserID__ckMd5"] = dede_user_id_ckmd5
+        config_info["cookies"]["sid"] = sid
         self.write(config_info)
 
     def update_specific_config(self, action, key, value):
@@ -91,24 +98,24 @@ class Model:
 
     def reset_upload_config(self):
         config_info = self.get_config()
-        config_info['upload']['copyright'] = 2
-        config_info['upload']['title'] = ""
-        config_info['upload']['desc'] = ""
-        config_info['upload']['tid'] = 138
-        config_info['upload']['tag'] = "bilitool"
-        config_info['upload']['source'] = "\u6765\u6e90\u4e8e\u4e92\u8054\u7f51"
-        config_info['upload']['cover'] = ""
-        config_info['upload']['dynamic'] = ""
+        config_info["upload"]["copyright"] = 2
+        config_info["upload"]["title"] = ""
+        config_info["upload"]["desc"] = ""
+        config_info["upload"]["tid"] = 138
+        config_info["upload"]["tag"] = "bilitool"
+        config_info["upload"]["source"] = "\u6765\u6e90\u4e8e\u4e92\u8054\u7f51"
+        config_info["upload"]["cover"] = ""
+        config_info["upload"]["dynamic"] = ""
         self.write(config_info)
 
     def reset_cookies(self):
         config_info = self.get_config()
-        config_info['cookies']['access_key'] = ""
-        config_info['cookies']['SESSDATA'] = ""
-        config_info['cookies']['bili_jct'] = ""
-        config_info['cookies']['DedeUserID'] = ""
-        config_info['cookies']['DedeUserID__ckMd5'] = ""
-        config_info['cookies']['sid'] = ""
+        config_info["cookies"]["access_key"] = ""
+        config_info["cookies"]["SESSDATA"] = ""
+        config_info["cookies"]["bili_jct"] = ""
+        config_info["cookies"]["DedeUserID"] = ""
+        config_info["cookies"]["DedeUserID__ckMd5"] = ""
+        config_info["cookies"]["sid"] = ""
         self.write(config_info)
 
     def get_config(self):

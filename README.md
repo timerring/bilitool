@@ -101,6 +101,7 @@ graph TD
   - 显示日志与上传进度
   - 支持**自动测速并且选择最佳线路**(默认)
   - 支持指定上传线路(`qn`, `bldsa`, `ws`, `bda2`, `tx`)
+  - 支持上传视频封面图片
 - `bilitool append` 追加视频到已有的视频(**分p投稿**)
 - `bilitool download` 下载视频
   - 支持 `bvid` 和 `avid` 两种编号下载
