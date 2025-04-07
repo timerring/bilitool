@@ -15,14 +15,12 @@ class LoginController(object):
         self.check_bili_login = CheckBiliLogin()
 
     def login_bilibili(self, export):
-        input(
-            "Please maximize the window to ensure the QR code is fully displayed, press Enter to continue: "
-        )
+        print("Please maximize the window to ensure the QR code is fully displayed, press Enter to continue: ", flush=True)
         login_url, auth_code = self.login_bili.get_tv_qrcode_url_and_auth_code()
         qr = qrcode.QRCode()
         qr.add_data(login_url)
         qr.print_ascii()
-        print("Or copy this link to your phone Bilibili:", login_url)
+        print("Or copy this link to your phone Bilibili:", login_url, flush=True)
         self.login_bili.verify_login(auth_code, export)
 
     def logout_bilibili(self):
