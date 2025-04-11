@@ -181,7 +181,7 @@ LoginController().logout_bilibili()
 LoginController().check_bilibili_login()
 
 # Upload
-UploadController().upload_video_entry(video_path: str, yaml: str, line: str, copyright: int, tid: int, title: str, desc: str, tag: str, source: str, cover: str, dynamic: str, cdn: str)
+UploadController().upload_video_entry(video_path: str, yaml: str, line: str, tid: int, title: str, desc: str, tag: str, source: str, cover: str, dynamic: str, cdn: str)
 
 # Append
 UploadController().append_video_entry(video_path: str, bvid: str, cdn: str)
