@@ -16,10 +16,9 @@ class UploadController:
 
     @staticmethod
     def package_upload_metadata(
-        copyright, tid, title, desc, tag, source, cover, dynamic
+        tid, title, desc, tag, source, cover, dynamic
     ):
         return {
-            "copyright": copyright,
             "tid": tid,
             "title": title,
             "desc": desc,
@@ -138,7 +137,6 @@ class UploadController:
         self,
         video_path,
         yaml,
-        copyright,
         tid,
         title,
         desc,
@@ -153,7 +151,7 @@ class UploadController:
             upload_metadata = self.package_upload_metadata(*parse_yaml(yaml))
         else:
             upload_metadata = self.package_upload_metadata(
-                copyright, tid, title, desc, tag, source, cover, dynamic
+                tid, title, desc, tag, source, cover, dynamic
             )
         if upload_metadata["cover"]:
             upload_metadata["cover"] = self.bili_uploader.cover_up(

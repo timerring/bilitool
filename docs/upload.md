@@ -5,7 +5,7 @@
 `bilitool upload -h ` 打印帮助信息：
 
 ```bash
-usage: bilitool upload [-h] [-y YAML] [--copyright COPYRIGHT] [--title TITLE] [--desc DESC] [--tid TID] [--tag TAG] [--source SOURCE] [--cover COVER]
+usage: bilitool upload [-h] [-y YAML] [--title TITLE] [--desc DESC] [--tid TID] [--tag TAG] [--source SOURCE] [--cover COVER]
                          [--dynamic DYNAMIC]
                          video_path
 
@@ -15,8 +15,6 @@ positional arguments:
 options:
   -h, --help            show this help message and exit
   -y YAML, --yaml YAML  The path to yaml file(if yaml file is provided, the arguments below will be ignored)
-  --copyright COPYRIGHT
-                        (default is 2) 1 for original, 2 for reprint
   --title TITLE         (default is video name) The title of video
   --desc DESC           (default is empty) The description of video
   --tid TID             (default is 138) For more info to the type id, refer to https://biliup.github.io/tid-ref.html

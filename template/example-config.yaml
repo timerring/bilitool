@@ -1,4 +1,3 @@
-copyright: 1 # the copyright of video (1 for original, 2 for reprint)
 source: https://live.bilibili.com/xxxxxxxx # the source of video (required if your video is re-print)
 title: "your video title"
 desc: "your video description"
