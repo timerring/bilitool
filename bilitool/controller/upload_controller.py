@@ -15,9 +15,7 @@ class UploadController:
         self.bili_uploader = BiliUploader(self.logger)
 
     @staticmethod
-    def package_upload_metadata(
-        tid, title, desc, tag, source, cover, dynamic
-    ):
+    def package_upload_metadata(tid, title, desc, tag, source, cover, dynamic):
         return {
             "tid": tid,
             "title": title,

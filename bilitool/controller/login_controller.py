@@ -15,7 +15,10 @@ class LoginController(object):
         self.check_bili_login = CheckBiliLogin()
 
     def login_bilibili(self, export):
-        print("Please maximize the window to ensure the QR code is fully displayed, press Enter to continue: ", flush=True)
+        print(
+            "Please maximize the window to ensure the QR code is fully displayed, press Enter to continue: ",
+            flush=True,
+        )
         login_url, auth_code = self.login_bili.get_tv_qrcode_url_and_auth_code()
         qr = qrcode.QRCode()
         qr.add_data(login_url)
