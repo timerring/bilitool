@@ -64,12 +64,6 @@ def cli():
         help="The path to yaml file(if yaml file is provided, the arguments below will be ignored)",
     )
     upload_parser.add_argument(
-        "--copyright",
-        type=int,
-        default=2,
-        help="(default is 2) 1 for original, 2 for reprint",
-    )
-    upload_parser.add_argument(
         "--title", default="", help="(default is video name) The title of video"
     )
     upload_parser.add_argument(
@@ -200,7 +194,6 @@ def cli():
         UploadController().upload_video_entry(
             args.video_path,
             args.yaml,
-            args.copyright,
             args.tid,
             args.title,
             args.desc,
