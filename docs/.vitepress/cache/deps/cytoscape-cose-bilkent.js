@@ -2,9 +2,9 @@ import {
   __commonJS
 } from "./chunk-BUSYA2B4.js";
 
-// node_modules/layout-base/layout-base.js
+// ../../../node_modules/layout-base/layout-base.js
 var require_layout_base = __commonJS({
-  "node_modules/layout-base/layout-base.js"(exports, module) {
+  "../../../node_modules/layout-base/layout-base.js"(exports, module) {
     (function webpackUniversalModuleDefinition(root, factory) {
       if (typeof exports === "object" && typeof module === "object")
         module.exports = factory();
@@ -3234,9 +3234,9 @@ var require_layout_base = __commonJS({
   }
 });
 
-// node_modules/cose-base/cose-base.js
+// ../../../node_modules/cose-base/cose-base.js
 var require_cose_base = __commonJS({
-  "node_modules/cose-base/cose-base.js"(exports, module) {
+  "../../../node_modules/cose-base/cose-base.js"(exports, module) {
     (function webpackUniversalModuleDefinition(root, factory) {
       if (typeof exports === "object" && typeof module === "object")
         module.exports = factory(require_layout_base());
@@ -4332,9 +4332,9 @@ var require_cose_base = __commonJS({
   }
 });
 
-// node_modules/cytoscape-cose-bilkent/cytoscape-cose-bilkent.js
+// ../../../node_modules/cytoscape-cose-bilkent/cytoscape-cose-bilkent.js
 var require_cytoscape_cose_bilkent = __commonJS({
-  "node_modules/cytoscape-cose-bilkent/cytoscape-cose-bilkent.js"(exports, module) {
+  "../../../node_modules/cytoscape-cose-bilkent/cytoscape-cose-bilkent.js"(exports, module) {
     (function webpackUniversalModuleDefinition(root, factory) {
       if (typeof exports === "object" && typeof module === "object")
         module.exports = factory(require_cose_base());

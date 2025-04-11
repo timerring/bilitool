@@ -28,6 +28,7 @@ let config = defineConfig({
           { text: 'Show', link: '/show' },
           { text: 'Convert', link: '/convert' },
           { text: 'IP', link: '/ip' },
+          { text: 'Tid', link: '/tid' },
         ]
       }
     ],
